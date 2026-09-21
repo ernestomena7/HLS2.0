@@ -8,9 +8,11 @@ institucional). Está construido para generar contactos y leads de ventas.
 
 - **Navegación fija** que se compacta y opacifica al hacer scroll, con menú móvil
   y resaltado automático de la sección activa.
-- **Hero con parallax**: paisaje montañoso boscoso y superficie de río dibujados
-  en SVG por capas. La línea del agua queda exactamente al **60 %** de la altura
-  del hero y desde ahí un difuminado la funde con el fondo al **90 %**.
+- **Hero con parallax**: fotografía de un río con montañas boscosas al fondo
+  (`assets/img/hero.webp`, 1920×1037, 57 KB). La imagen está recortada para que
+  la línea del agua caiga al **60 %** de su altura y se ancla con
+  `background-position: 50% 60%`, de modo que queda al **60 %** del hero en
+  cualquier pantalla; desde ahí un difuminado la funde con el fondo al **90 %**.
 - **Secciones**: Quiénes somos, Qué hacemos, Servicios (10 tarjetas), Nuestro
   enfoque, Marcas y Contacto.
 - **Formulario de contacto** con validación en español (nombre, correo, teléfono,
@@ -24,6 +26,7 @@ institucional). Está construido para generar contactos y leads de ventas.
 index.html              Marcado completo del sitio
 assets/css/styles.css   Estilos (tokens de color, secciones, responsive)
 assets/js/main.js       Navegación, parallax, reveals, marquesina y formulario
+assets/img/hero.webp    Imagen del hero (río y montañas)
 ```
 
 No hay proceso de compilación ni dependencias: es HTML, CSS y JavaScript estático.
@@ -43,6 +46,7 @@ python3 -m http.server 8080
 | Endpoint del formulario | `FORM_ENDPOINT` en `assets/js/main.js` |
 | Correo de destino | `CONTACT_EMAIL` en `assets/js/main.js` |
 | Logos de marcas | sección `#marcas` en `index.html` |
+| Imagen del hero | `assets/img/hero.webp` (mantén la línea del agua al 60 % de la imagen) |
 
 ### Formulario
 
