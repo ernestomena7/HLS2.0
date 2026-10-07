@@ -9,7 +9,7 @@ institucional). Está construido para generar contactos y leads de ventas.
 - **Navegación fija** que se compacta y opacifica al hacer scroll, con menú móvil
   y resaltado automático de la sección activa.
 - **Hero con parallax**: fotografía de un río con montañas boscosas al fondo
-  (`assets/img/hero.webp`, 1920×1037, 57 KB). La imagen está recortada para que
+  (`assets/img/hero.webp`, 1600×898, 55 KB). La imagen está recortada para que
   la línea del agua caiga al **60 %** de su altura y se ancla con
   `background-position: 50% 60%`, de modo que queda al **60 %** del hero en
   cualquier pantalla; desde ahí un difuminado la funde con el fondo al **90 %**.
@@ -17,6 +17,8 @@ institucional). Está construido para generar contactos y leads de ventas.
   enfoque, Marcas y Contacto.
 - **Formulario de contacto** con validación en español (nombre, correo, teléfono,
   compañía opcional y mensaje) y campo trampa anti-spam.
+- **Tema claro**: fondo blanco, tipografía azul marino y acentos de agua. Toda
+  la paleta vive en los tokens de `:root` en `assets/css/styles.css`.
 - Animaciones de entrada al hacer scroll, diseño responsive y respeto por
   `prefers-reduced-motion`.
 
