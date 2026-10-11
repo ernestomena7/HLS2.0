@@ -189,17 +189,17 @@ perdería su portada. Ver la estrategia al final.
 
 ### Tests for User Story 5
 
-- [ ] T057 [P] [US5] Escribir la prueba de extremo a extremo en `tests/e2e/continuidad-marketing.spec.ts`: las seis anclas responden, la portada carga, el hero mantiene la línea del agua al 60 % de la imagen, y el formulario de contacto valida y envía igual que antes
+- [X] T057 [P] [US5] Escribir la prueba de extremo a extremo en `tests/e2e/continuidad-marketing.spec.ts`: las seis anclas responden, la portada carga, el hero mantiene la línea del agua al 60 % de la imagen, y el formulario de contacto valida y envía igual que antes
 
 ### Implementation for User Story 5
 
-- [ ] T058 [US5] Mover `assets/img/hero.webp` a `public/img/hero.webp`
-- [ ] T059 [US5] Migrar el hero a `components/marketing/Hero.tsx` conservando `background-position: 50% 60%`, la capa sobredimensionada del parallax y el difuminado que se completa al 90 %
-- [ ] T060 [P] [US5] Migrar las secciones «quiénes somos» y «qué hacemos» a `components/marketing/QuienesSomos.tsx` y `components/marketing/QueHacemos.tsx`
-- [ ] T061 [P] [US5] Migrar «servicios», «nuestro enfoque» y «marcas» a `components/marketing/Servicios.tsx`, `components/marketing/Enfoque.tsx` y `components/marketing/Marcas.tsx`, conservando las diez tarjetas de servicio
-- [ ] T062 [US5] Migrar el formulario a `components/marketing/FormularioContacto.tsx` conservando la validación en español, el campo trampa anti-spam y el comportamiento de envío actual
-- [ ] T063 [US5] Trasladar los comportamientos de `assets/js/main.js` a componentes de cliente: barra que se compacta al hacer scroll, menú móvil, resaltado de sección activa, parallax del hero, animaciones de entrada y marquesina de marcas, respetando `prefers-reduced-motion`
-- [ ] T064 [US5] Componer `app/page.tsx` con todas las secciones, eliminar `index.html`, `assets/css/`, `assets/js/` y `assets/img/` de la raíz, y actualizar `README.md` para describir la aplicación
+- [X] T058 [US5] Mover `assets/img/hero.webp` a `public/img/hero.webp`
+- [X] T059 [US5] Migrar el hero a `components/marketing/Hero.tsx` conservando `background-position: 50% 60%`, la capa sobredimensionada del parallax y el difuminado que se completa al 90 %
+- [X] T060 [P] [US5] Migrar las secciones «quiénes somos» y «qué hacemos» a `components/marketing/QuienesSomos.tsx` y `components/marketing/QueHacemos.tsx`
+- [X] T061 [P] [US5] Migrar «servicios», «nuestro enfoque» y «marcas» a `components/marketing/Servicios.tsx`, `components/marketing/Enfoque.tsx` y `components/marketing/Marcas.tsx`, conservando las diez tarjetas de servicio
+- [X] T062 [US5] Migrar el formulario a `components/marketing/FormularioContacto.tsx` conservando la validación en español, el campo trampa anti-spam y el comportamiento de envío actual
+- [X] T063 [US5] Trasladar los comportamientos de `assets/js/main.js` a componentes de cliente: barra que se compacta al hacer scroll, menú móvil, resaltado de sección activa, parallax del hero, animaciones de entrada y marquesina de marcas, respetando `prefers-reduced-motion`
+- [X] T064 [US5] Componer `app/page.tsx` con todas las secciones, eliminar `index.html`, `assets/css/`, `assets/js/` y `assets/img/` de la raíz, y actualizar `README.md` para describir la aplicación
 
 **Checkpoint**: el sitio completo vive sobre la nueva base, sin pérdidas.
 

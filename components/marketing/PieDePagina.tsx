@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 /**
  * Pie de página del sitio. Conserva los enlaces y los datos de contacto del
  * sitio aprobado (FR-022). El año se calcula al renderizar, en lugar de
@@ -17,7 +19,7 @@ export default function PieDePagina() {
   return (
     <footer className="footer">
       <div className="wrap footer__inner">
-        <a className="brand brand--footer" href="/" aria-label="Hidrosal, inicio">
+        <Link className="brand brand--footer" href="/" aria-label="Hidrosal, inicio">
           <svg className="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
             <defs>
               <linearGradient id="dropGradPie" x1="0" y1="0" x2="1" y2="1">
@@ -34,7 +36,7 @@ export default function PieDePagina() {
             <strong>HIDROSAL</strong>
             <em>Water Treatment Solutions</em>
           </span>
-        </a>
+        </Link>
 
         <nav className="footer__links" aria-label="Navegación del pie de página">
           {ENLACES.map(({ ancla, texto }) => (

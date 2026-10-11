@@ -1,77 +1,138 @@
-# Hidrosal (HLS) — Sitio web corporativo
+# Hidrosal (HLS) — Sitio y tienda en línea
 
-Sitio de una sola página para **Hidrosal**, empresa salvadoreña de purificación y
-tratamiento de agua por ósmosis inversa (residencial, comercial, industrial e
-institucional). Está construido para generar contactos y leads de ventas.
+Aplicación de **Hidrosal**, empresa salvadoreña de purificación y tratamiento de
+agua por ósmosis inversa (residencial, comercial, industrial e institucional).
 
-## Características
+Reúne el sitio corporativo —pensado para generar contactos y leads— y el
+catálogo público de productos. Es la **entrega 1 de 3**: las siguientes añaden
+carrito y pago, y después la administración de productos y usuarios.
 
-- **Navegación fija** que se compacta y opacifica al hacer scroll, con menú móvil
-  y resaltado automático de la sección activa.
-- **Hero con parallax**: fotografía de un río con montañas boscosas al fondo
-  (`assets/img/hero.webp`, 1600×898, 55 KB). La imagen está recortada para que
-  la línea del agua caiga al **60 %** de su altura y se ancla con
+## Qué incluye hoy
+
+- **Portada** con las seis secciones aprobadas: quiénes somos, qué hacemos,
+  servicios (10 tarjetas), nuestro enfoque, marcas y contacto.
+- **Hero con parallax**: fotografía de un río con montañas boscosas
+  (`public/img/hero.webp`, 1600×898). La imagen está recortada para que la línea
+  del agua caiga al **60 %** de su altura y se ancla con
   `background-position: 50% 60%`, de modo que queda al **60 %** del hero en
   cualquier pantalla; desde ahí un difuminado la funde con el fondo al **90 %**.
-- **Secciones**: Quiénes somos, Qué hacemos, Servicios (10 tarjetas), Nuestro
-  enfoque, Marcas y Contacto.
-- **Formulario de contacto** con validación en español (nombre, correo, teléfono,
-  compañía opcional y mensaje) y campo trampa anti-spam.
+- **Formulario de contacto** con validación en español (nombre, correo,
+  teléfono, compañía opcional y mensaje) y campo trampa anti-spam. Si se llega
+  desde la ficha de un producto, el mensaje arranca con su referencia.
+- **Catálogo** en `/productos`: rejilla paginada de doce en doce, filtro por
+  categoría y búsqueda que no distingue mayúsculas ni acentos.
+- **Ficha de producto** en `/productos/{slug}`: galería, descripción, tabla de
+  especificaciones, precio o «Precio a consultar», relacionados y llamada a la
+  acción. Las direcciones antiguas siguen funcionando mediante redirección.
+- **Descubrimiento**: metadatos propios por página, mapa del sitio sin
+  borradores y `robots.txt`.
 - **Tema claro**: fondo blanco, tipografía azul marino y acentos de agua. Toda
-  la paleta vive en los tokens de `:root` en `assets/css/styles.css`.
-- Animaciones de entrada al hacer scroll, diseño responsive y respeto por
-  `prefers-reduced-motion`.
+  la paleta vive en los tokens de `:root` en `app/globals.css`.
+
+## Pila técnica
+
+| Pieza | Elección |
+|-------|----------|
+| Aplicación | Next.js 16 (App Router) con React 19, renderizado en servidor |
+| Lenguaje | TypeScript 6 en modo estricto, sobre Node.js 22 LTS |
+| Base de datos | MySQL 8 o MariaDB 10.6+, solo a través de Prisma 7 |
+| Validación | Zod 4 en los límites: parámetros de la dirección y variables de entorno |
+| Pruebas | Vitest (unidad) y Playwright (extremo a extremo) |
+| Empaquetado | `output: "standalone"`, para arrancar con el runtime de Node del alojamiento |
+
+Las decisiones y sus alternativas están razonadas en
+[`specs/001-catalogo-productos/research.md`](specs/001-catalogo-productos/research.md),
+y las reglas que el proyecto no negocia, en
+[`.specify/memory/constitution.md`](.specify/memory/constitution.md).
 
 ## Estructura
 
-```
-index.html              Marcado completo del sitio
-assets/css/styles.css   Estilos (tokens de color, secciones, responsive)
-assets/js/main.js       Navegación, parallax, reveals, marquesina y formulario
-assets/img/hero.webp    Imagen del hero (río y montañas)
+```text
+app/                  Rutas: portada, catálogo, ficha, mapa del sitio y robots
+components/
+  marketing/          Secciones de la portada, navegación y pie de página
+  catalogo/           Tarjeta, filtros, buscador, paginación, galería…
+lib/                  Acceso a datos, validación, precio y normalización de texto
+prisma/               Esquema, migraciones versionadas y datos de ejemplo
+public/img/           Fotografías servidas tal cual
+scripts/              Preparación de la salida standalone
+tests/unit/           Vitest
+tests/e2e/            Playwright
+specs/                Especificación, plan, contratos y tareas de cada entrega
 ```
 
-No hay proceso de compilación ni dependencias: es HTML, CSS y JavaScript estático.
-
-## Ejecutar en local
+## Puesta en marcha
 
 ```bash
-python3 -m http.server 8080
-# abrir http://localhost:8080
+npm install
+
+cp .env.example .env         # y completar DATABASE_URL y NEXT_PUBLIC_SITE_URL
+npx prisma migrate dev       # crea el esquema
+npx prisma db seed           # datos de ejemplo: 6 categorías y 30 productos
+
+npm run dev                  # http://localhost:3000
 ```
 
-## Personalización
+Ningún secreto se versiona: `.env` está ignorado y `.env.example` documenta las
+variables con el valor vacío.
 
-| Qué | Dónde |
-| --- | --- |
-| Paleta, tipografías y medidas | `:root` en `assets/css/styles.css` |
-| Endpoint del formulario | `FORM_ENDPOINT` en `assets/js/main.js` |
-| Correo de destino | `CONTACT_EMAIL` en `assets/js/main.js` |
-| Logos de marcas | sección `#marcas` en `index.html` |
-| Imagen del hero | `assets/img/hero.webp` (mantén la línea del agua al 60 % de la imagen) |
+## Puertas de calidad
 
-### Formulario
-
-`FORM_ENDPOINT` está vacío por defecto: al enviar, el sitio abre el cliente de
-correo del visitante con el mensaje ya redactado hacia `ventas@hidrosal.com`.
-Al colocar una URL (Formspree, Getform, Basin o un backend propio) el formulario
-hace `POST` en JSON con los campos `nombre`, `correo`, `telefono`, `compania` y
-`mensaje`, y muestra el estado del envío en la misma página.
-
-### Marcas
-
-Las tarjetas de la sección *Marcas* son **marcadores de posición** (`Marca 01` …
-`Marca 08`). Sustituye cada `<span>` por el logo real cuando estén disponibles:
-
-```html
-<li class="brands__item"><img src="assets/img/marca.svg" alt="Nombre de la marca"></li>
+```bash
+npm run typecheck   # TypeScript estricto
+npm run lint        # ESLint: prohíbe any y @ts-ignore en app/, components/ y lib/
+npm run test        # Vitest
+npm run test:e2e    # Playwright (necesita la base sembrada)
+npm run build       # compilación de producción
 ```
+
+Las cinco deben pasar antes de fusionar.
+
+> En una máquina sin acceso a la descarga de navegadores de Playwright, se puede
+> apuntar a un Chromium ya instalado con `CHROMIUM_EXECUTABLE=/ruta/al/chrome`.
 
 ## Despliegue
 
-Al ser un sitio estático puede publicarse en GitHub Pages (rama y carpeta raíz),
-Netlify, Vercel o cualquier hosting tradicional por FTP.
+El plan de alojamiento **debe ejecutar Node**; un hosting compartido solo con
+PHP no puede servir esta aplicación. Es el riesgo R-1 de `research.md` y
+conviene confirmarlo antes que nada.
 
-## Contacto
+```bash
+npm ci
+npx prisma migrate deploy    # paso explícito y previo: nunca al arrancar la app
+npm run build                # compila y prepara .next/standalone
+npm start                    # node .next/standalone/server.js
+```
+
+`npm run build` deja en `.next/standalone` un servidor autocontenido, y el paso
+`postbuild` le copia `public/` y `.next/static`, que Next no copia por su
+cuenta. El proceso escucha en el puerto de la variable `PORT` (3000 por
+defecto).
+
+### Imágenes
+
+La optimización de imágenes de Next necesita **`sharp`** instalado en el
+servidor; ya está entre las dependencias. Si el alojamiento no lo admitiera, el
+plan B documentado (decisión D-7) es servir imágenes preoptimizadas sin el
+optimizador, conservando ancho y alto declarados para que nada salte mientras
+cargan.
+
+### Seguridad
+
+Las cabeceras fijas se emiten desde `next.config.ts` y la política de contenido,
+con un `nonce` distinto por petición, desde `proxy.ts`. Por eso las páginas se
+renderizan en cada petición en lugar de hornearse en la compilación: un HTML
+horneado llevaría un `nonce` caducado y el navegador bloquearía todos los
+guiones (decisión D-14).
+
+## Lo que falta
+
+- Sustituir los datos de ejemplo por el catálogo real, con sus fotografías.
+- Reemplazar los marcadores `Marca 01…08` por los logotipos reales.
+- Conectar el formulario a un servicio de recepción: hoy, sin `FORM_ENDPOINT`
+  configurado, abre el correo del visitante hacia ventas@hidrosal.com.
+- Confirmar el motor y la versión de base de datos del alojamiento (riesgo R-2).
+
+## Contacto de la empresa
 
 +503 7398 2967 · ventas@hidrosal.com

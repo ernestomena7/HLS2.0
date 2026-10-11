@@ -110,6 +110,10 @@ mostrando por error.
 se regeneran por tiempo (revalidación periódica); el listado con filtro, búsqueda o página se
 resuelve en cada petición.
 
+> **Matizada por la decisión D-14**: la política de seguridad de contenido obliga a renderizar
+> cada página por petición, así que la revalidación periódica actúa sobre los datos y no sobre el
+> HTML completo. El ahorro contra la base de datos se mantiene; la caché de página entera, no.
+
 **Razón**: el catálogo cambia poco y se lee mucho: regenerar por tiempo da páginas rápidas y
 metadatos correctos. Las combinaciones de filtro y búsqueda son demasiadas para precalcularlas y
 baratas de resolver. En un servidor Node propio la caché de regeneración vive en el disco del
@@ -239,6 +243,47 @@ tipos.
   vigilancia, que es exactamente lo que el principio II prohíbe.
 - *Instalar las dos líneas en paralelo*: rechazada por complejidad sin beneficio: dos
   compiladores en el proyecto para ganar velocidad de compilación en local.
+
+---
+
+## D-14 · La política de seguridad obliga a renderizar en cada petición
+
+**Decisión**: todas las páginas se renderizan por petición. La caché deja de
+estar en la página entera y pasa a estar en los datos.
+
+**Razón**: descubierto al migrar la portada (tarea T064). La política de
+seguridad de contenido firma los guiones de Next con un `nonce` distinto en
+cada petición, que es lo que permite prohibir `unsafe-inline` en `script-src`.
+Una página horneada en la compilación lleva dentro el `nonce` de aquel momento,
+que ya no coincide con el de la cabecera: el navegador rechazó los doce guiones
+de la portada y la página quedó **sin hidratar**, es decir, sin menú en móvil,
+sin validación del formulario, sin galería y sin parallax. Medido, no supuesto:
+doce errores de política en la consola y `window.next` ausente.
+
+Las rutas de catálogo y ficha ya se resolvían por petición —llevan parámetros y
+dirección variable— y hidrataban sin un solo bloqueo. Solo había que alinear la
+portada y la página de «no encontrado», y por eso existe también la ruta
+comodín `app/[...rutas]/page.tsx`: sin ella Next serviría la página de error
+horneada en la compilación.
+
+**Qué se pierde y qué no**: se pierde la caché de HTML completo que proponía la
+decisión D-6. No se pierde el ahorro de trabajo contra la base de datos: las
+consultas conservan su revalidación, así que el catálogo no vuelve a consultar
+MySQL en cada visita. La portada no consulta nada: es marcado puro y
+renderizarla cuesta microsegundos.
+
+**Alternativas consideradas**:
+
+- *Permitir `unsafe-inline` en `script-src` y mantener las páginas estáticas*:
+  rechazada. Es justamente la vía por la que se explota una inyección, y el
+  principio I no es negociable. El beneficio —servir HTML ya horneado de una
+  portada sin datos— no compensa.
+- *Firmar los guiones con hashes en lugar de `nonce`*: inviable. Los guiones en
+  línea de Next incluyen los datos de hidratación de cada página, así que su
+  hash cambia con el contenido.
+- *Poner la política en el servidor de delante en lugar de en la aplicación*:
+  rechazada. Ataría la seguridad a una configuración de alojamiento que no
+  viaja con el repositorio y que nadie revisaría al desplegar.
 
 ---
 
