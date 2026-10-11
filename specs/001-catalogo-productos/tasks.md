@@ -140,17 +140,17 @@ mensaje de «sin resultados», y que recargar o compartir la dirección reproduc
 
 ### Tests for User Story 3
 
-- [ ] T044 [P] [US3] Escribir las pruebas unitarias de canonicalización en `tests/unit/parametros.test.ts` cubriendo **toda** la tabla de [parametros-catalogo.md](./contracts/parametros-catalogo.md): `q` vacío o de solo espacios se descarta, `q` de más de 80 se recorta, categoría inexistente se descarta, `pagina` no numérica o menor que 1 pasa a 1, `pagina` fuera de rango devuelve la última con resultados, parámetros desconocidos se ignoran y un parámetro repetido toma el primero
-- [ ] T045 [P] [US3] Escribir la prueba de extremo a extremo en `tests/e2e/busqueda-filtros.spec.ts`: filtro por categoría, búsqueda con y sin acentos y en mayúsculas, intersección de ambos, sin resultados, `?pagina=999` y `?categoria=inexistente`
+- [X] T044 [P] [US3] Escribir las pruebas unitarias de canonicalización en `tests/unit/parametros.test.ts` cubriendo **toda** la tabla de [parametros-catalogo.md](./contracts/parametros-catalogo.md): `q` vacío o de solo espacios se descarta, `q` de más de 80 se recorta, categoría inexistente se descarta, `pagina` no numérica o menor que 1 pasa a 1, `pagina` fuera de rango devuelve la última con resultados, parámetros desconocidos se ignoran y un parámetro repetido toma el primero
+- [X] T045 [P] [US3] Escribir la prueba de extremo a extremo en `tests/e2e/busqueda-filtros.spec.ts`: filtro por categoría, búsqueda con y sin acentos y en mayúsculas, intersección de ambos, sin resultados, `?pagina=999` y `?categoria=inexistente`
 
 ### Implementation for User Story 3
 
-- [ ] T046 [US3] Implementar `lib/catalogo/parametros.ts` con el esquema Zod de `q` (1–80 tras recortar), `categoria` (slug existente) y `pagina` (entero positivo), más la canonicalización y el orden canónico `categoria`, `q`, `pagina` omitiendo los valores por defecto
-- [ ] T047 [US3] Extender `listarProductos` en `lib/catalogo/consultas.ts` con filtro por categoría y búsqueda sobre `nombreNormalizado`, normalizando el término con la misma función que la columna (decisión D-3)
-- [ ] T048 [P] [US3] Crear `components/catalogo/FiltroCategorias.tsx` mostrando el filtro vigente y ordenando por el campo `orden` de la categoría
-- [ ] T049 [P] [US3] Crear `components/catalogo/Buscador.tsx` con etiqueta asociada y envío funcional sin JavaScript
-- [ ] T050 [US3] Integrar filtros y buscador en `app/productos/page.tsx`, reiniciando a la página 1 cuando cambia el filtro o la búsqueda
-- [ ] T051 [P] [US3] Añadir en `components/catalogo/EstadoVacio.tsx` los avisos de «sin coincidencias» con enlace al catálogo completo y de «la categoría pedida no existe»
+- [X] T046 [US3] Implementar `lib/catalogo/parametros.ts` con el esquema Zod de `q` (1–80 tras recortar), `categoria` (slug existente) y `pagina` (entero positivo), más la canonicalización y el orden canónico `categoria`, `q`, `pagina` omitiendo los valores por defecto
+- [X] T047 [US3] Extender `listarProductos` en `lib/catalogo/consultas.ts` con filtro por categoría y búsqueda sobre `nombreNormalizado`, normalizando el término con la misma función que la columna (decisión D-3)
+- [X] T048 [P] [US3] Crear `components/catalogo/FiltroCategorias.tsx` mostrando el filtro vigente y ordenando por el campo `orden` de la categoría
+- [X] T049 [P] [US3] Crear `components/catalogo/Buscador.tsx` con etiqueta asociada y envío funcional sin JavaScript
+- [X] T050 [US3] Integrar filtros y buscador en `app/productos/page.tsx`, reiniciando a la página 1 cuando cambia el filtro o la búsqueda
+- [X] T051 [P] [US3] Añadir en `components/catalogo/EstadoVacio.tsx` los avisos de «sin coincidencias» con enlace al catálogo completo y de «la categoría pedida no existe»
 
 **Checkpoint**: el catálogo es utilizable de verdad aunque crezca.
 

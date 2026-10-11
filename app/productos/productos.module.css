@@ -474,3 +474,121 @@
     transition: none;
   }
 }
+
+/* ======================================================================
+   Filtros y buscador
+   ====================================================================== */
+
+.controles {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  margin-bottom: 1.8rem;
+}
+
+@media (min-width: 900px) {
+  .controles {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.6rem;
+  }
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+}
+
+.filtro {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .4rem .9rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: .86rem;
+  color: var(--text-soft);
+  text-decoration: none;
+  transition: border-color .3s var(--ease), color .3s var(--ease),
+    background .3s var(--ease);
+}
+
+.filtro:hover {
+  border-color: var(--line-strong);
+  color: var(--text);
+}
+
+.filtro:focus-visible {
+  outline: 2px solid var(--aqua);
+  outline-offset: 2px;
+}
+
+.filtroVigente {
+  background: var(--bg-3);
+  border-color: var(--aqua);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.filtroCuenta {
+  font-size: .72rem;
+  color: var(--text-dim);
+}
+
+.buscador {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  min-width: min(100%, 340px);
+}
+
+.buscadorEtiqueta {
+  font-family: var(--font-display);
+  font-size: .74rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.buscadorCampo {
+  display: flex;
+  gap: .5rem;
+}
+
+.buscadorCampo input {
+  flex: 1;
+  min-width: 0;
+  padding: .62rem .9rem;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  font-family: var(--font-body);
+  font-size: .95rem;
+  color: var(--text);
+}
+
+.buscadorCampo input:focus-visible {
+  outline: 2px solid var(--aqua);
+  outline-offset: 1px;
+}
+
+.aviso {
+  margin: 0 0 1.4rem;
+  padding: .8rem 1rem;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--aqua);
+  border-radius: 10px;
+  color: var(--text-soft);
+  font-size: .92rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filtro {
+    transition: none;
+  }
+}

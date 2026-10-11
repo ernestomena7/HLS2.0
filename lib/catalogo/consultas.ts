@@ -45,6 +45,14 @@ export type ResultadoCatalogo = {
 
 export type FiltrosCatalogo = {
   pagina: number;
+  /** Slug de una categoría existente. Sin él, se lista todo el catálogo. */
+  categoria?: string | undefined;
+  /**
+   * Término de búsqueda **ya normalizado** con `normalizar()`, la misma
+   * función que alimenta la columna `nombreNormalizado` (decisión D-3). Pasar
+   * aquí texto sin normalizar haría que «Ósmosis» no encontrase nada.
+   */
+  qNormalizado?: string | undefined;
 };
 
 /**
@@ -55,7 +63,13 @@ export type FiltrosCatalogo = {
  * fuera de rango devuelve la última con resultados, no una lista vacía.
  */
 export async function listarProductos(filtros: FiltrosCatalogo): Promise<ResultadoCatalogo> {
-  const donde: Prisma.ProductoWhereInput = { ...SOLO_PUBLICADOS };
+  const donde: Prisma.ProductoWhereInput = {
+    ...SOLO_PUBLICADOS,
+    ...(filtros.categoria === undefined ? {} : { categoria: { slug: filtros.categoria } }),
+    ...(filtros.qNormalizado === undefined
+      ? {}
+      : { nombreNormalizado: { contains: filtros.qNormalizado } }),
+  };
 
   const total = await db.producto.count({ where: donde });
   const paginacion = calcularPaginacion(total, filtros.pagina);
@@ -170,4 +184,33 @@ export async function obtenerRelacionados(
     orderBy: [...ORDEN_CATALOGO],
     take: MAXIMO_RELACIONADOS,
   });
+}
+
+export type CategoriaFiltro = {
+  slug: string;
+  nombre: string;
+  /** Cuántos productos publicados tiene. Cero significa categoría vacía. */
+  publicados: number;
+};
+
+/**
+ * Categorías para el filtro, en el orden de presentación que fija su campo
+ * `orden`. Se incluyen también las que no tienen productos publicados: el
+ * visitante merece saber que la línea existe y está en preparación.
+ */
+export async function listarCategorias(): Promise<CategoriaFiltro[]> {
+  const categorias = await db.categoria.findMany({
+    orderBy: [{ orden: "asc" }, { nombre: "asc" }],
+    select: {
+      slug: true,
+      nombre: true,
+      _count: { select: { productos: { where: SOLO_PUBLICADOS } } },
+    },
+  });
+
+  return categorias.map(({ slug, nombre, _count }) => ({
+    slug,
+    nombre,
+    publicados: _count.productos,
+  }));
 }
