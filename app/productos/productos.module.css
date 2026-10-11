@@ -244,3 +244,233 @@
     transform: none;
   }
 }
+
+/* ======================================================================
+   Ficha de producto
+   ====================================================================== */
+
+.miga {
+  font-size: .86rem;
+  color: var(--text-dim);
+  margin-bottom: 1.6rem;
+}
+
+.miga a {
+  color: var(--aqua-ink);
+  text-decoration: none;
+}
+
+.miga a:hover {
+  text-decoration: underline;
+}
+
+.ficha {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1.6rem, 1.2rem + 2vw, 3rem);
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .ficha {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  }
+}
+
+/* ---------------------------------------------------------- Galería -- */
+.galeriaPrincipal {
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+}
+
+.galeriaPrincipal img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.galeriaMiniaturas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin: .8rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.miniatura {
+  display: block;
+  padding: 0;
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color .3s var(--ease);
+}
+
+.miniatura img {
+  display: block;
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+}
+
+.miniatura:hover {
+  border-color: var(--line-strong);
+}
+
+.miniatura:focus-visible {
+  outline: 2px solid var(--aqua);
+  outline-offset: 2px;
+}
+
+.miniaturaActiva {
+  border-color: var(--aqua);
+  box-shadow: 0 0 0 1px var(--aqua);
+}
+
+/* ------------------------------------------------------- Datos ------ */
+.fichaNombre {
+  margin: .35rem 0 .9rem;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1.8rem, 1.2rem + 2vw, 2.6rem);
+  line-height: 1.15;
+  letter-spacing: -.02em;
+  color: var(--text);
+}
+
+.fichaDisponibilidad {
+  margin: 0 0 1rem;
+}
+
+.disponible,
+.agotado {
+  display: inline-block;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: .2rem .8rem;
+  font-family: var(--font-display);
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.disponible {
+  color: var(--aqua-ink);
+  border-color: var(--aqua);
+}
+
+.agotado {
+  color: var(--text-soft);
+  text-transform: none;
+  letter-spacing: .02em;
+  font-weight: 500;
+}
+
+.fichaPrecio,
+.fichaPrecioConsultar {
+  margin: 0 0 1.2rem;
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.fichaPrecioConsultar {
+  font-size: 1.42rem;
+  font-weight: 500;
+  color: var(--aqua-ink);
+}
+
+.fichaDescripcion {
+  margin: 0 0 1.6rem;
+  color: var(--text-soft);
+  max-width: 60ch;
+}
+
+.asesoria {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .7rem;
+}
+
+.asesoriaNota {
+  margin: 0;
+  font-size: .86rem;
+  color: var(--text-dim);
+}
+
+/* --------------------------------------------- Especificaciones ----- */
+.especificaciones {
+  width: 100%;
+  margin: clamp(2.4rem, 2rem + 1.5vw, 3.4rem) 0 0;
+  border-collapse: collapse;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.especificacionesTitulo {
+  caption-side: top;
+  text-align: left;
+  padding: 0 0 .9rem;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.3rem;
+  letter-spacing: -.012em;
+  color: var(--text);
+}
+
+.especificaciones th,
+.especificaciones td {
+  padding: .8rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  font-size: .95rem;
+}
+
+.especificaciones tr:last-child th,
+.especificaciones tr:last-child td {
+  border-bottom: 0;
+}
+
+.especificaciones th {
+  width: 38%;
+  background: var(--surface-2);
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--text-soft);
+}
+
+.sinEspecificaciones {
+  margin: clamp(2.4rem, 2rem + 1.5vw, 3.4rem) 0 0;
+  color: var(--text-dim);
+}
+
+/* ------------------------------------------------- Relacionados ----- */
+.relacionados {
+  margin-top: clamp(3rem, 2.4rem + 2vw, 4.4rem);
+}
+
+.relacionadosTitulo {
+  margin: 0 0 1.4rem;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.42rem;
+  letter-spacing: -.012em;
+  color: var(--text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .miniatura {
+    transition: none;
+  }
+}

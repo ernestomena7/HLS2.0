@@ -50,11 +50,16 @@ recargarla o compartirla reproduce los mismos resultados (FR-006).
 | Situación | Respuesta | Código |
 |-----------|-----------|--------|
 | `slug` corresponde a un producto **publicado** | Ficha completa: galería, descripción, tabla de especificaciones, categoría, disponibilidad, precio o «Precio a consultar», relacionados de la misma categoría (máx. 4) y llamada a la acción hacia el formulario de contacto con la referencia del producto | 200 |
-| `slug` corresponde a un **slug histórico** de un producto publicado | Redirección a la dirección vigente del producto | 301 |
+| `slug` corresponde a un **slug histórico** de un producto publicado | Redirección permanente a la dirección vigente del producto | 308 |
 | `slug` no existe | Página «no encontrado» en español con enlace al catálogo | 404 |
 | `slug` corresponde a un producto en **borrador** | Idéntico al caso anterior: no se distingue de uno inexistente (FR-012, caso límite de borrador) | 404 |
 | Producto publicado y **agotado** | Ficha completa con el aviso de agotado y la vía para consultar disponibilidad; nunca un error | 200 |
 | Producto publicado **sin imágenes** | Ficha completa con imagen de reserva y texto alternativo descriptivo | 200 |
+
+> Sobre el 308 en lugar del 301: la redirección permanente de Next responde 308, que es el
+> código moderno equivalente y conserva el método de la petición. Para una petición GET —que es
+> lo único que recibe una ficha— el efecto y el tratamiento por parte de los buscadores son los
+> mismos que los de un 301.
 
 **Metadatos** (FR-014, FR-015): título con el nombre del producto, descripción derivada de su
 descripción, y datos para vista previa al compartir, con la imagen principal del producto.

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Página no encontrada",
@@ -21,12 +22,12 @@ export default function NoEncontrado() {
           Podés volver a la portada o ver el catálogo completo.
         </p>
         <div className="hero__actions">
-          <a className="btn btn--primary" href="/productos">
+          <Link className="btn btn--primary" href="/productos">
             Ver el catálogo
-          </a>
-          <a className="btn btn--ghost" href="/">
+          </Link>
+          <Link className="btn btn--ghost" href="/">
             Ir a la portada
-          </a>
+          </Link>
         </div>
       </div>
     </section>

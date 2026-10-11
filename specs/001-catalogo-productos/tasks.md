@@ -113,19 +113,19 @@ cinco escenarios de aceptación; abrir un borrador y comprobar que responde como
 
 ### Tests for User Story 2
 
-- [ ] T034 [P] [US2] Escribir las pruebas unitarias de resolución de slug en `tests/unit/slug.test.ts`: slug vigente resuelve al producto, slug histórico devuelve redirección permanente, slug inexistente no resuelve
-- [ ] T035 [P] [US2] Escribir la prueba de extremo a extremo de la ficha en `tests/e2e/ficha-producto.spec.ts` cubriendo producto publicado, agotado, sin imagen, en borrador (404) y slug histórico (301)
+- [X] T034 [P] [US2] Escribir las pruebas unitarias de resolución de slug en `tests/unit/slug.test.ts`: slug vigente resuelve al producto, slug histórico devuelve redirección permanente, slug inexistente no resuelve
+- [X] T035 [P] [US2] Escribir la prueba de extremo a extremo de la ficha en `tests/e2e/ficha-producto.spec.ts` cubriendo producto publicado, agotado, sin imagen, en borrador (404) y slug histórico (308)
 
 ### Implementation for User Story 2
 
-- [ ] T036 [US2] Implementar `obtenerProductoPublicado` y `resolverSlugHistorico` en `lib/catalogo/consultas.ts` según el contrato de [rutas-publicas.md](./contracts/rutas-publicas.md): 200 para publicado, 301 desde slug histórico, 404 para inexistente y para borrador
-- [ ] T037 [US2] Implementar `obtenerRelacionados` en `lib/catalogo/consultas.ts`: misma categoría, publicados, excluyendo el actual, máximo 4, orden por `creadoEn` descendente
-- [ ] T038 [P] [US2] Crear `components/catalogo/GaleriaProducto.tsx` navegable con teclado, con imagen de reserva y texto alternativo cuando el producto no tiene imágenes
-- [ ] T039 [P] [US2] Crear `components/catalogo/TablaEspecificaciones.tsx` que renderice los pares nombre/valor conservando su orden, con marcado semántico de tabla
-- [ ] T040 [P] [US2] Crear `components/catalogo/ProductosRelacionados.tsx` reutilizando `TarjetaProducto`
-- [ ] T041 [P] [US2] Crear `components/catalogo/LlamadaAsesoria.tsx` que enlace al formulario de contacto trasladando la referencia del producto consultado (FR-011)
-- [ ] T042 [US2] Crear `app/productos/[slug]/page.tsx` componiendo lo anterior y aplicando las reglas de 404 y 301 de T036
-- [ ] T043 [US2] Implementar `generateMetadata` en `app/productos/[slug]/page.tsx` con título y descripción propios del producto
+- [X] T036 [US2] Implementar `obtenerProductoPublicado` y `resolverSlugHistorico` en `lib/catalogo/consultas.ts` según el contrato de [rutas-publicas.md](./contracts/rutas-publicas.md): 200 para publicado, redirección permanente (308) desde slug histórico, 404 para inexistente y para borrador
+- [X] T037 [US2] Implementar `obtenerRelacionados` en `lib/catalogo/consultas.ts`: misma categoría, publicados, excluyendo el actual, máximo 4, orden por `creadoEn` descendente
+- [X] T038 [P] [US2] Crear `components/catalogo/GaleriaProducto.tsx` navegable con teclado, con imagen de reserva y texto alternativo cuando el producto no tiene imágenes
+- [X] T039 [P] [US2] Crear `components/catalogo/TablaEspecificaciones.tsx` que renderice los pares nombre/valor conservando su orden, con marcado semántico de tabla
+- [X] T040 [P] [US2] Crear `components/catalogo/ProductosRelacionados.tsx` reutilizando `TarjetaProducto`
+- [X] T041 [P] [US2] Crear `components/catalogo/LlamadaAsesoria.tsx` que enlace al formulario de contacto trasladando la referencia del producto consultado (FR-011)
+- [X] T042 [US2] Crear `app/productos/[slug]/page.tsx` componiendo lo anterior y aplicando las reglas de 404 y 301 de T036
+- [X] T043 [US2] Implementar `generateMetadata` en `app/productos/[slug]/page.tsx` con título y descripción propios del producto
 
 **Checkpoint**: historias 1 y 2 funcionando juntas: ya hay recorrido de catálogo a ficha.
 

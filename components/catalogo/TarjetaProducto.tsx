@@ -2,15 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { imagenPrincipal, type ProductoResumen } from "@/lib/catalogo/consultas";
+import { IMAGEN_DE_RESERVA } from "@/lib/catalogo/imagenes";
 import { presentarPrecio } from "@/lib/precio";
 
 import estilos from "@/app/productos/productos.module.css";
-
-/** Imagen de reserva para los productos que todavía no tienen fotografía. */
-export const IMAGEN_DE_RESERVA = {
-  ruta: "/img/sin-imagen.webp",
-  textoAlternativo: "Fotografía pendiente: este producto aún no tiene imagen publicada",
-} as const;
 
 /**
  * Ancho y alto declarados para que nada salte mientras cargan las imágenes
