@@ -214,3 +214,18 @@ export async function listarCategorias(): Promise<CategoriaFiltro[]> {
     publicados: _count.productos,
   }));
 }
+
+export type EntradaMapa = { slug: string; actualizadoEn: Date };
+
+/**
+ * Productos publicados para el mapa del sitio (FR-016). Excluye los
+ * borradores por el mismo filtro que el resto del módulo: no hay una segunda
+ * regla que mantener sincronizada.
+ */
+export async function listarProductosParaMapa(): Promise<EntradaMapa[]> {
+  return db.producto.findMany({
+    where: SOLO_PUBLICADOS,
+    select: { slug: true, actualizadoEn: true },
+    orderBy: { actualizadoEn: "desc" },
+  });
+}

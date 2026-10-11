@@ -165,14 +165,14 @@ sitio, verificando que no incluye borradores.
 
 ### Tests for User Story 4
 
-- [ ] T052 [P] [US4] Escribir la prueba de extremo a extremo en `tests/e2e/descubrimiento.spec.ts`: dos fichas con metadatos distintos, y `/sitemap.xml` con las fichas publicadas y sin ninguna en borrador
+- [X] T052 [P] [US4] Escribir la prueba de extremo a extremo en `tests/e2e/descubrimiento.spec.ts`: dos fichas con metadatos distintos, y `/sitemap.xml` con las fichas publicadas y sin ninguna en borrador
 
 ### Implementation for User Story 4
 
-- [ ] T053 [US4] Implementar `app/sitemap.ts` incluyendo portada, catálogo, categorías y fichas publicadas, excluyendo borradores (FR-016)
-- [ ] T054 [P] [US4] Implementar `app/robots.ts` permitiendo el rastreo y apuntando al mapa del sitio
-- [ ] T055 [US4] Añadir los datos de vista previa al compartir en `app/productos/[slug]/page.tsx`, con la imagen principal del producto (FR-015)
-- [ ] T056 [P] [US4] Añadir título y descripción propios a las vistas de categoría en `app/productos/page.tsx` cuando hay filtro de categoría aplicado
+- [X] T053 [US4] Implementar `app/sitemap.ts` incluyendo portada, catálogo, categorías y fichas publicadas, excluyendo borradores (FR-016)
+- [X] T054 [P] [US4] Implementar `app/robots.ts` permitiendo el rastreo y apuntando al mapa del sitio
+- [X] T055 [US4] Añadir los datos de vista previa al compartir en `app/productos/[slug]/page.tsx`, con la imagen principal del producto (FR-015)
+- [X] T056 [P] [US4] Añadir título y descripción propios a las vistas de categoría en `app/productos/page.tsx` cuando hay filtro de categoría aplicado
 
 ---
 
