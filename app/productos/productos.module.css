@@ -477,19 +477,30 @@
    Filtros y buscador
    ====================================================================== */
 
+/* El buscador arriba y los filtros en su propia línea a ancho completo.
+   Compartiendo línea, la fila desplazable de categorías quedaba cortada
+   detrás del buscador y el filtro vigente podía no verse. */
 .controles {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 1.1rem;
   margin-bottom: 1.8rem;
 }
 
 @media (min-width: 900px) {
   .controles {
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 1.6rem;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 1.2rem 1.6rem;
+  }
+
+  .filtros {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .buscador {
+    grid-column: 2;
+    grid-row: 1;
   }
 }
 
