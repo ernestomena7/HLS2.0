@@ -29,13 +29,16 @@ ninguno de los no publicados aparece.
 **Acceptance Scenarios**:
 
 1. **Given** existen productos publicados en varias categorías, **When** el visitante abre la
-   página de catálogo, **Then** ve cada producto publicado con imagen, nombre, categoría, precio
-   en dólares y estado de disponibilidad.
+   página de catálogo, **Then** ve cada producto publicado con imagen, nombre, categoría,
+   estado de disponibilidad y precio en dólares con la leyenda «IVA incluido».
 2. **Given** existe un producto en estado borrador, **When** el visitante abre la página de
    catálogo, **Then** ese producto no aparece en ningún lugar de la lista.
 3. **Given** un producto está marcado como agotado, **When** el visitante lo ve en el catálogo,
    **Then** aparece visible y claramente identificado como agotado.
-4. **Given** el catálogo tiene más productos de los que caben en una página, **When** el
+4. **Given** un producto publicado no tiene precio público, **When** el visitante lo ve en el
+   catálogo, **Then** en el lugar del precio lee «Precio a consultar», no un espacio vacío ni un
+   cero.
+5. **Given** el catálogo tiene más productos de los que caben en una página, **When** el
    visitante llega al final de la lista, **Then** puede avanzar a la siguiente página y volver a
    la anterior sin perder el contexto.
 
@@ -69,6 +72,9 @@ relacionados y la llamada a la acción.
    abrirlos.
 4. **Given** un producto está agotado, **When** el visitante abre su ficha, **Then** ve el aviso
    de agotado y la vía para consultar disponibilidad, no un mensaje de error.
+5. **Given** un producto publicado no tiene precio público, **When** el visitante abre su ficha,
+   **Then** lee «Precio a consultar» donde iría la cifra y la llamada a la acción lo lleva a
+   solicitar asesoría por ese producto.
 
 ---
 
@@ -167,6 +173,8 @@ después del cambio de base técnica, y enviando el formulario de contacto.
   devuelven los mismos resultados.
 - **Producto sin imagen cargada**: se muestra una imagen de reserva con texto alternativo
   descriptivo; la ficha nunca se rompe por una imagen faltante.
+- **Producto sin precio público**: se muestra con «Precio a consultar» en catálogo y ficha, con la
+  misma prominencia que tendría una cifra, y la llamada a la acción lleva a pedir asesoría.
 - **Catálogo completamente vacío**: la página de productos explica que el catálogo está en
   preparación e invita a contactar.
 - **Dirección de producto modificada**: si el identificador legible de un producto cambia, la
@@ -181,8 +189,9 @@ después del cambio de base técnica, y enviando el formulario de contacto.
 
 - **FR-001**: El sistema MUST mostrar una página de catálogo con todos los productos en estado
   publicado y ninguno en estado borrador.
-- **FR-002**: Cada producto del catálogo MUST mostrar imagen principal, nombre, categoría, precio
-  y estado de disponibilidad.
+- **FR-002**: Cada producto del catálogo MUST mostrar imagen principal, nombre, categoría, estado
+  de disponibilidad y precio final con IVA incluido, o la indicación «Precio a consultar» cuando
+  el producto no tenga precio público.
 - **FR-003**: El sistema MUST paginar el catálogo cuando el número de productos publicados supere
   el tamaño de página definido, con navegación a la página anterior y siguiente.
 - **FR-004**: El sistema MUST permitir filtrar el catálogo por categoría.
@@ -198,7 +207,8 @@ después del cambio de base técnica, y enviando el formulario de contacto.
 - **FR-008**: Cada producto publicado MUST ser accesible mediante una dirección legible, estable y
   única, derivada de su nombre.
 - **FR-009**: La ficha de producto MUST mostrar galería de imágenes, descripción, tabla de
-  especificaciones técnicas, precio, categoría y estado de disponibilidad.
+  especificaciones técnicas, categoría, estado de disponibilidad y precio final con IVA incluido,
+  o la indicación «Precio a consultar» cuando el producto no tenga precio público.
 - **FR-010**: La ficha de producto MUST mostrar productos relacionados de la misma categoría
   cuando existan.
 - **FR-011**: La ficha de producto MUST ofrecer una llamada a la acción que lleve al formulario de
@@ -246,18 +256,20 @@ después del cambio de base técnica, y enviando el formulario de contacto.
   salte durante la carga.
 - **FR-027**: Todo el contenido de cara al público MUST estar en español salvadoreño y los precios
   expresados en dólares estadounidenses.
-- **FR-028**: El precio mostrado MUST indicar de forma explícita su relación con el IVA
-  [NEEDS CLARIFICATION: ¿el precio que se publica incluye el IVA del 13 % o se muestra sin IVA y
-  se advierte que se añade al cotizar?]
-- **FR-029**: El catálogo MUST contemplar productos sin precio público
-  [NEEDS CLARIFICATION: ¿todos los productos llevan precio visible, o los equipos industriales se
-  publican como "precio a consultar" y solo los de consumo llevan precio?]
+- **FR-028**: Todo precio publicado MUST ser el precio final que paga el comprador, con el IVA del
+  13 % ya incluido, y MUST mostrarse acompañado de la leyenda «IVA incluido» tanto en el catálogo
+  como en la ficha. No se publican precios netos sin impuesto.
+- **FR-029**: El precio MUST ser opcional por producto. Un producto sin precio público MUST
+  mostrarse con la indicación «Precio a consultar» en lugar de una cifra, en catálogo y en ficha,
+  y su llamada a la acción MUST llevar a solicitar asesoría. La ausencia de precio MUST NOT
+  ocultar el producto ni impedir consultar su ficha.
 
 ### Key Entities *(include if feature involves data)*
 
 - **Producto**: un equipo o consumible que Hidrosal ofrece. Atributos relevantes: código interno
   (SKU), identificador legible para la dirección, nombre, descripción, conjunto de
-  especificaciones técnicas (pares de nombre y valor), precio en dólares, estado de publicación
+  especificaciones técnicas (pares de nombre y valor), precio final en dólares con IVA incluido —
+  opcional, y su ausencia significa «precio a consultar»—, estado de publicación
   (publicado o borrador), disponibilidad, y fechas de creación y actualización. Pertenece a una
   categoría y tiene una o varias imágenes.
 - **Categoría**: agrupación comercial de productos (por ejemplo, ósmosis inversa o repuestos y
@@ -274,7 +286,8 @@ después del cambio de base técnica, y enviando el formulario de contacto.
 - **SC-001**: Un visitante que llega a la portada encuentra un producto concreto del catálogo en
   menos de 30 segundos, usando el filtro de categoría o el buscador.
 - **SC-002**: El 100 % de las fichas publicadas muestran nombre, categoría, al menos una imagen
-  con texto alternativo, especificaciones técnicas, precio y disponibilidad.
+  con texto alternativo, especificaciones técnicas, disponibilidad y precio con IVA incluido o la
+  indicación «Precio a consultar».
 - **SC-003**: Las páginas de catálogo y de ficha se completan solo con teclado, y una auditoría
   automática de accesibilidad no reporta ningún error grave.
 - **SC-004**: El contenido principal del catálogo y de la ficha es visible en menos de 2,5
@@ -304,6 +317,9 @@ después del cambio de base técnica, y enviando el formulario de contacto.
   hasta que exista la administración.
 - **Llamada a la acción provisional**: la ficha lleva al formulario de contacto. El botón de
   añadir al carrito llegará en la segunda entrega y sustituirá a esa llamada a la acción.
+- **El precio almacenado es el precio final**: la cifra guardada ya incluye el IVA del 13 %. El
+  sistema no calcula el impuesto ni desglosa la base imponible en esta entrega; si más adelante
+  se necesita el desglose en la factura, será un cambio de la entrega 2.
 - **Un solo idioma y una sola moneda**: español y dólares estadounidenses. No hay selector de
   idioma ni de moneda.
 - **Los datos de ejemplo son representativos, no reales**: los nombres, precios y especificaciones
@@ -316,7 +332,8 @@ después del cambio de base técnica, y enviando el formulario de contacto.
 ## Dependencies
 
 - **Entrega 2 (carrito y checkout)** depende de esta: reutilizará el modelo de productos y
-  sustituirá la llamada a la acción de la ficha.
+  sustituirá la llamada a la acción de la ficha. Los productos sin precio público NO entrarán al
+  carrito; mantendrán la vía de cotización.
 - **Entrega 3 (administración)** depende de esta: administrará las mismas entidades que aquí se
   definen.
 - **Elección de pasarela de pago**: pendiente, pero NO bloquea esta entrega, porque aquí no se

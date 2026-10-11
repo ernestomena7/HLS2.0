@@ -13,7 +13,7 @@
 
 ## Requirement Completeness
 
-- [ ] No [NEEDS CLARIFICATION] markers remain
+- [x] No [NEEDS CLARIFICATION] markers remain
 - [x] Requirements are testable and unambiguous
 - [x] Success criteria are measurable
 - [x] Success criteria are technology-agnostic (no implementation details)
@@ -24,7 +24,7 @@
 
 ## Feature Readiness
 
-- [ ] All functional requirements have clear acceptance criteria
+- [x] All functional requirements have clear acceptance criteria
 - [x] User scenarios cover primary flows
 - [x] Feature meets measurable outcomes defined in Success Criteria
 - [x] No implementation details leak into specification
@@ -33,19 +33,24 @@
 
 - Items marked incomplete require spec updates before `/speckit-clarify` or `/speckit-plan`
 
-### Estado de la validación — 2026-10-11
+### Historial de validación
 
-Iteración 1. Dos elementos no pasan, y ambos tienen la misma causa: quedan dos marcadores
-`[NEEDS CLARIFICATION]` pendientes de respuesta del cliente.
+**Iteración 1 — 2026-10-11**: 14 de 16 elementos pasan. No pasan «No [NEEDS CLARIFICATION]
+markers remain» ni «All functional requirements have clear acceptance criteria», por los dos
+marcadores pendientes en FR-028 (precio frente al IVA) y FR-029 (productos sin precio público).
+Ambos afectan a las dos pantallas de la entrega, así que se consultan en vez de asumirlos.
 
-- **No [NEEDS CLARIFICATION] markers remain** — no pasa:
-  - **FR-028**: cómo se publica el precio respecto al IVA del 13 %.
-  - **FR-029**: si todos los productos llevan precio visible o los equipos industriales se
-    publican como "precio a consultar".
-- **All functional requirements have clear acceptance criteria** — no pasa: FR-028 y FR-029 no
-  pueden tener criterio de aceptación hasta que se resuelvan. El resto de requisitos sí lo tiene.
+**Iteración 2 — 2026-10-11**: 16 de 16 elementos pasan. El cliente resolvió las dos preguntas:
 
-Ambas preguntas afectan al alcance y a la presentación del precio en catálogo y ficha, es decir,
-a las dos pantallas de esta entrega, por lo que se consultan antes de planificar en vez de
-asumir un valor por defecto. No se marcaron más aspectos como pendientes: el resto de vacíos se
-resolvió con valores razonables documentados en la sección de supuestos de la especificación.
+- **FR-028**: se publica el precio final con el IVA del 13 % ya incluido, con la leyenda «IVA
+  incluido». No se publican precios netos.
+- **FR-029**: el precio es opcional por producto. Sin precio público se muestra «Precio a
+  consultar» y la llamada a la acción lleva a solicitar asesoría.
+
+Cambios derivados: FR-002 y FR-009 recogen las dos formas de mostrar el precio; se añadieron
+escenarios de aceptación en las historias 1 y 2 para el producto sin precio; se añadió el caso
+límite correspondiente; SC-002 admite ambas formas; la entidad Producto declara el precio como
+opcional y final; y se anotó en dependencias que los productos sin precio no entrarán al carrito
+en la entrega 2, sino que mantendrán la vía de cotización.
+
+La especificación queda lista para `/speckit-plan`.
