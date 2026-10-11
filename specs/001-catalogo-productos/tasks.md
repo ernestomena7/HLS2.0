@@ -36,14 +36,14 @@ Aplicación única Next.js en la raíz del repositorio, según la decisión de e
 
 **Purpose**: dejar el proyecto inicializado y con las puertas de calidad ejecutables.
 
-- [ ] T001 Crear el esqueleto de directorios en la raíz: `app/`, `components/marketing/`, `components/catalogo/`, `lib/catalogo/`, `prisma/`, `public/img/`, `tests/unit/`, `tests/e2e/`
-- [ ] T002 Crear `package.json` con Next.js 16.4.0, React 19.3.0, TypeScript 7.0.2, `@prisma/client` 7.10.0, `prisma` 7.10.0 (desarrollo), Zod 4.6.6, `sharp` 0.35.5, Vitest 5.0.3 y `@playwright/test` 1.64.0, y los scripts `dev`, `build`, `start`, `typecheck`, `lint`, `test` y `test:e2e`. Fijar la línea 7 de Prisma de forma explícita: la etiqueta `latest` apunta hoy a una candidata 8.0 (decisión D-2)
-- [ ] T003 [P] Configurar `tsconfig.json` con `"strict": true`, `"noUncheckedIndexedAccess": true` y el alias `@/*` hacia la raíz
-- [ ] T004 [P] Configurar `next.config.ts` con `output: "standalone"` (decisión D-1) y cabeceras de seguridad para todas las rutas
-- [ ] T005 [P] Configurar ESLint y Prettier en `eslint.config.mjs` y `.prettierrc`, con la regla que prohíbe `any` y `@ts-ignore` en `app/`, `components/` y `lib/`
-- [ ] T006 [P] Configurar Vitest en `vitest.config.ts` para ejecutar `tests/unit/**/*.test.ts`
-- [ ] T007 [P] Configurar Playwright en `playwright.config.ts` con `baseURL` en `http://localhost:3000` y arranque automático del servidor
-- [ ] T008 [P] Crear `.env.example` con `DATABASE_URL` y `NEXT_PUBLIC_SITE_URL` vacías y documentadas, y añadir `.env` y `node_modules/` a `.gitignore`. Ningún secreto se versiona (constitución, principio I)
+- [X] T001 Crear el esqueleto de directorios en la raíz: `app/`, `components/marketing/`, `components/catalogo/`, `lib/catalogo/`, `prisma/`, `public/img/`, `tests/unit/`, `tests/e2e/`
+- [X] T002 Crear `package.json` con Next.js 16.4.0, React 19.3.0, TypeScript 6.0.3 (decisión D-13), `@prisma/client` 7.10.0, `prisma` 7.10.0 (desarrollo), Zod 4.6.6, `sharp` 0.35.5, Vitest 5.0.3 y `@playwright/test` 1.64.0, y los scripts `dev`, `build`, `start`, `typecheck`, `lint`, `test` y `test:e2e`. Fijar la línea 7 de Prisma de forma explícita: la etiqueta `latest` apunta hoy a una candidata 8.0 (decisión D-2)
+- [X] T003 [P] Configurar `tsconfig.json` con `"strict": true`, `"noUncheckedIndexedAccess": true` y el alias `@/*` hacia la raíz
+- [X] T004 [P] Configurar `next.config.ts` con `output: "standalone"` (decisión D-1) y cabeceras de seguridad para todas las rutas; la política de contenido va en `middleware.ts` porque necesita un `nonce` por petición
+- [X] T005 [P] Configurar ESLint y Prettier en `eslint.config.mjs` y `.prettierrc`, con la regla que prohíbe `any` y `@ts-ignore` en `app/`, `components/` y `lib/`
+- [X] T006 [P] Configurar Vitest en `vitest.config.ts` para ejecutar `tests/unit/**/*.test.ts`
+- [X] T007 [P] Configurar Playwright en `playwright.config.ts` con `baseURL` en `http://localhost:3000` y arranque automático del servidor
+- [X] T008 [P] Crear `.env.example` con `DATABASE_URL` y `NEXT_PUBLIC_SITE_URL` vacías y documentadas, y añadir `.env` y `node_modules/` a `.gitignore`. Ningún secreto se versiona (constitución, principio I)
 
 ---
 

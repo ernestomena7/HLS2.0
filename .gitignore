@@ -1,6 +1,32 @@
+# Sistema operativo
 .DS_Store
 Thumbs.db
+
+# Dependencias
 node_modules/
+
+# Compilación de Next
+.next/
+out/
+next-env.d.ts
+
+# Variables de entorno: ningún secreto se versiona (constitución, principio I)
+.env
+.env.*
+!.env.example
+
+# Pruebas e informes
+coverage/
+playwright-report/
+test-results/
+blob-report/
+.playwright/
+
+# Registros y temporales
+*.log
+npm-debug.log*
+*.tsbuildinfo
+.vercel/
 
 # Estado local de los agentes de código (puede contener credenciales)
 .claude/settings.local.json

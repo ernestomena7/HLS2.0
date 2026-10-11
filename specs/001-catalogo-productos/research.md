@@ -211,6 +211,37 @@ destiempo. Como paso explícito, es revisable y reversible, que es lo que pide e
 
 ---
 
+## D-13 · Versión de TypeScript: línea 6 estable, no la 7
+
+**Decisión**: fijar `typescript` en **6.0.3** en lugar de la 7.0.2 que la etiqueta `latest`
+sirve hoy.
+
+**Razón**: descubierto al configurar las puertas de calidad (tarea T005). `typescript-eslint`
+8.71.1 —el analizador que arrastra `eslint-config-next` 16.4.0— declara
+`typescript: ">=4.8.4 <6.1.0"` y aborta con «typescript-eslint does not support TS 7.0». Con
+TypeScript 7 instalado, `npm run lint` no arranca siquiera, así que la prohibición de `any` y de
+`@ts-ignore` que el principio II exige dejaría de ser verificable. Entre tener el compilador más
+nuevo sin análisis estático, y tener la última línea estable con todo el encadenado funcionando,
+el principio II decide: la regla tiene que ser ejecutable, no solo escrita.
+
+**Consecuencia**: el modo estricto, `noUncheckedIndexedAccess` y el resto de la configuración de
+`tsconfig.json` son idénticos en la línea 6; no se pierde ninguna garantía de tipado. Lo que se
+posterga es el compilador nativo de la 7, que es una mejora de velocidad, no de seguridad de
+tipos.
+
+**Cuándo revisarlo**: cuando `typescript-eslint` publique soporte de TypeScript ≥ 7.1
+(seguimiento en el incidente 10940 de su repositorio). Subir entonces es cambiar una línea de
+`package.json`.
+
+**Alternativas consideradas**:
+
+- *Quedarse en TypeScript 7 y renunciar a `typescript-eslint`*: rechazada. Dejaría `any` sin
+  vigilancia, que es exactamente lo que el principio II prohíbe.
+- *Instalar las dos líneas en paralelo*: rechazada por complejidad sin beneficio: dos
+  compiladores en el proyecto para ganar velocidad de compilación en local.
+
+---
+
 ## Riesgos abiertos
 
 | Id | Riesgo | Impacto | Mitigación |

@@ -20,7 +20,9 @@ Prisma, validación de parámetros con Zod, precios en decimal exacto, y empaque
 
 ## Technical Context
 
-**Language/Version**: TypeScript 7.0 en modo estricto, sobre Node.js 22 LTS
+**Language/Version**: TypeScript 6.0 en modo estricto, sobre Node.js 22 LTS (se fija la línea 6
+estable porque `typescript-eslint` todavía no soporta la 7 y el análisis estático del principio II
+dejaría de ejecutarse; ver decisión D-13)
 
 **Primary Dependencies**: Next.js 16.4 (App Router) con React 19.3; Prisma 7.10 y
 `@prisma/client` 7.10 (se fija la línea 7 estable: la etiqueta `latest` de `prisma` apunta hoy a
@@ -61,7 +63,7 @@ Evaluado contra la constitución v1.0.0.
 | Principio | Cómo lo cumple este plan | Estado |
 |-----------|--------------------------|--------|
 | I. Seguridad por defecto | Sin secretos en el repositorio: `DATABASE_URL` y demás variables se validan al arrancar con Zod y se documentan vacías en `.env.example`. Los parámetros de catálogo (`q`, `categoria`, `pagina`) se validan en servidor antes de consultar. No hay rutas de administración en esta entrega, así que no hay superficie de autorización todavía; tampoco se tocan datos de pago. Cabeceras de seguridad configuradas en la aplicación | PASA |
-| II. Tipado estricto | `strict: true` en TypeScript 7; tipos de datos derivados de Prisma; parámetros de entrada derivados de esquemas Zod; prohibido `any` y `@ts-ignore` en producción | PASA |
+| II. Tipado estricto | `strict: true` en TypeScript 6; tipos de datos derivados de Prisma; parámetros de entrada derivados de esquemas Zod; prohibido `any` y `@ts-ignore` en producción | PASA |
 | III. Esquema versionado | Todo el esquema nace como migración de Prisma; acceso a datos solo por Prisma; precios en `DECIMAL(10,2)` manipulados como decimal, nunca como flotante | PASA |
 | IV. Accesibilidad y rendimiento | Marcado semántico, navegación por teclado y foco visible; contraste AA heredado de los tokens aprobados; imágenes con dimensiones declaradas vía `next/image`; se conserva el respeto a `prefers-reduced-motion` del sitio actual | PASA |
 | V. Pruebas proporcionales al riesgo | Unidad sobre precio, normalización de búsqueda, paginación y resolución de slug; extremo a extremo sobre el recorrido de compra consultiva y sobre la continuidad del sitio de marketing | PASA |
