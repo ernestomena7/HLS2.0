@@ -24,14 +24,13 @@ export default function Paginacion({ paginacion, direccionDePagina }: Props) {
 
   return (
     <nav className={estilos.paginacion} aria-label="Páginas del catálogo">
-      {paginacion.hayAnterior ? (
+      {/* En los extremos no se dibuja un enlace apagado: un texto atenuado que
+          no lleva a ninguna parte no aporta nada y no alcanza el contraste
+          mínimo. Simplemente no está. */}
+      {paginacion.hayAnterior && (
         <Link className={estilos.paginaSalto} href={direccionDePagina(paginacion.pagina - 1)}>
           <span aria-hidden="true">&larr;</span> Anterior
         </Link>
-      ) : (
-        <span className={`${estilos.paginaSalto} ${estilos.paginaInactiva}`} aria-hidden="true">
-          &larr; Anterior
-        </span>
       )}
 
       <ol className={estilos.paginaLista}>
@@ -52,14 +51,10 @@ export default function Paginacion({ paginacion, direccionDePagina }: Props) {
         })}
       </ol>
 
-      {paginacion.haySiguiente ? (
+      {paginacion.haySiguiente && (
         <Link className={estilos.paginaSalto} href={direccionDePagina(paginacion.pagina + 1)}>
           Siguiente <span aria-hidden="true">&rarr;</span>
         </Link>
-      ) : (
-        <span className={`${estilos.paginaSalto} ${estilos.paginaInactiva}`} aria-hidden="true">
-          Siguiente &rarr;
-        </span>
       )}
     </nav>
   );

@@ -109,6 +109,25 @@ npm start                    # node .next/standalone/server.js
 cuenta. El proceso escucha en el puerto de la variable `PORT` (3000 por
 defecto).
 
+El orden importa: las migraciones van **antes** de compilar y arrancar, nunca
+disparadas por el arranque de la aplicación (decisión D-12). Así el paso es
+revisable y reversible, y no puede ejecutarse dos veces en paralelo.
+
+El mapa del sitio se genera al compilar y se refresca cada hora, así que
+conviene que la base ya tenga su contenido cuando se ejecuta `npm run build`.
+
+### Medir el rendimiento
+
+```bash
+node scripts/medir-rendimiento.mjs          # contra el servidor ya levantado
+SEMILLA_CARGA=1 npx prisma db seed          # 200 productos y 10 categorías
+```
+
+Simula una conexión 4G de gama media y un procesador cuatro veces más lento, e
+informa del tiempo hasta el contenido principal y del desplazamiento acumulado.
+Las cifras de la última medición están en
+[`specs/001-catalogo-productos/quickstart.md`](specs/001-catalogo-productos/quickstart.md).
+
 ### Imágenes
 
 La optimización de imágenes de Next necesita **`sharp`** instalado en el

@@ -207,14 +207,16 @@ perdería su portada. Ver la estrategia al final.
 
 ## Phase 8: Polish & Cross-Cutting Concerns
 
-- [ ] T065 [P] Pasar una auditoría automática de accesibilidad sobre portada, catálogo y ficha, y corregir lo que reporte como grave (SC-003)
-- [ ] T066 [P] Medir SC-004 con la red limitada a 4G: contenido principal por debajo de 2,5 s y desplazamiento acumulado por debajo de 0,1
-- [ ] T067 [P] Verificar SC-007 cargando 200 productos y 10 categorías en los datos de ejemplo y repitiendo la medición de T066
-- [ ] T068 [P] Revisar que no quede `any` ni `@ts-ignore` en `app/`, `components/` y `lib/` (constitución, principio II)
-- [ ] T069 [P] Documentar el despliegue en `README.md`: `prisma migrate deploy` como paso previo explícito, arranque con la salida standalone, necesidad de `sharp`, y el plan B de imágenes sin optimizador (decisiones D-7 y D-12)
-- [ ] T070 [P] Verificar que las cabeceras de seguridad de T004 se emiten en todas las rutas
-- [ ] T071 Ejecutar las cuatro puertas de calidad en verde: `npm run typecheck`, `npm run lint`, `npm run test` y `npm run build`
+- [X] T065 [P] Pasar una auditoría automática de accesibilidad sobre portada, catálogo y ficha, y corregir lo que reporte como grave (SC-003)
+- [X] T066 [P] Medir SC-004 con la red limitada a 4G: contenido principal por debajo de 2,5 s y desplazamiento acumulado por debajo de 0,1
+- [X] T067 [P] Verificar SC-007 cargando 200 productos y 10 categorías en los datos de ejemplo y repitiendo la medición de T066
+- [X] T068 [P] Revisar que no quede `any` ni `@ts-ignore` en `app/`, `components/` y `lib/` (constitución, principio II)
+- [X] T069 [P] Documentar el despliegue en `README.md`: `prisma migrate deploy` como paso previo explícito, arranque con la salida standalone, necesidad de `sharp`, y el plan B de imágenes sin optimizador (decisiones D-7 y D-12)
+- [X] T070 [P] Verificar que las cabeceras de seguridad de T004 se emiten en todas las rutas
+- [X] T071 Ejecutar las cuatro puertas de calidad en verde: `npm run typecheck`, `npm run lint`, `npm run test` y `npm run build`, más `npm run test:e2e`
 - [ ] T072 Recorrer los siete escenarios de validación de [quickstart.md](./quickstart.md) y confirmar con el cliente los riesgos R-1 (plan de Hostinger con Node) y R-2 (motor y versión de base de datos) **antes** de desplegar
+  - [X] Los siete escenarios recorridos y cubiertos por pruebas; resultados en [quickstart.md](./quickstart.md)
+  - [ ] **Pendiente del cliente**: confirmar R-1 (que el plan contratado ejecuta Node) y R-2 (motor y versión de base de datos). No depende del equipo de desarrollo
 
 ---
 

@@ -22,7 +22,10 @@
   /* Texto */
   --text:          #0d2338;
   --text-soft:     #41607a;
-  --text-dim:      #6b8599;
+  /* Oscurecido desde #6b8599 para cumplir el contraste AA (4.5:1) sobre los
+     cuatro fondos del tema: blanco 5.30, --bg-2 4.95, --bg-3 4.63 y
+     --surface-2 5.06. El tono es el mismo, solo más legible. */
+  --text-dim:      #566e85;
 
   /* Acentos */
   --aqua:          #0ea5c9;
@@ -585,6 +588,19 @@ button{ font:inherit; color:inherit; }
 }
 .reveal.is-visible{ opacity:1; transform:none; }
 
+/* El hero no espera a JavaScript.
+   El resto de las secciones aparecen cuando el visitante llega a ellas, que es
+   lo que el diseño pide, pero el hero ya está en pantalla al cargar: dejarlo
+   invisible hasta que llegue el paquete del navegador retrasaba el contenido
+   principal más de tres segundos en una conexión 4G. La misma animación, con
+   el mismo retraso escalonado, hecha solo con CSS. */
+@keyframes aparecer{
+  to{ opacity:1; transform:none; }
+}
+.hero .reveal{
+  animation:aparecer .85s var(--ease) var(--d,0ms) both;
+}
+
 /* ------------------------------------------------------ Responsive --- */
 @media (max-width:1000px){
   .about{ grid-template-columns:1fr; }
@@ -630,6 +646,7 @@ button{ font:inherit; color:inherit; }
 
 /* --------------------------------------------- Movimiento reducido --- */
 @media (prefers-reduced-motion: reduce){
+  .hero .reveal{ animation:none; opacity:1; transform:none; }
   html{ scroll-behavior:auto; }
   *,*::before,*::after{
     animation-duration:.001ms !important;

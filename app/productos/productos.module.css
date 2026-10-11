@@ -24,6 +24,8 @@
 
 .resumen {
   margin: 0 0 1.4rem;
+  min-height: 1.6rem;
+  line-height: 1.6rem;
   color: var(--text-dim);
   font-size: .92rem;
 }
@@ -195,10 +197,6 @@
   border-color: var(--line-strong);
   color: var(--text);
   font-weight: 600;
-}
-
-.paginaInactiva {
-  opacity: .45;
 }
 
 /* ------------------------------------------------------ Estado vacío -- */
@@ -495,17 +493,44 @@
   }
 }
 
+/* Una sola fila desplazable, no un muro de fichas que se reorganiza.
+   Al envolverse en varias líneas, el número de líneas cambiaba cuando cargaba
+   la tipografía y arrastraba toda la página: con diez categorías el
+   desplazamiento acumulado llegaba a 0,16, por encima del límite de SC-004 y
+   SC-007. En una sola fila la altura es fija pase lo que pase. */
 .filtros {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: .45rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  padding-bottom: .35rem;
+  /* Sin esto, el contorno de foco de la primera ficha queda recortado. */
+  padding-inline: 2px;
+  margin-inline: -2px;
+}
+
+.filtros::-webkit-scrollbar {
+  height: 6px;
+}
+
+.filtros::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 999px;
 }
 
 .filtro {
   display: inline-flex;
+  flex: 0 0 auto;
+  white-space: nowrap;
   align-items: center;
   gap: .4rem;
-  padding: .4rem .9rem;
+  /* Alto fijo: si dependiera de las métricas de la tipografía, la fila de
+     filtros cambiaría de altura al cargar la fuente y arrastraría media
+     página consigo (desplazamiento acumulado, SC-004). */
+  height: 2.25rem;
+  padding: 0 .9rem;
   border: 1px solid var(--line);
   border-radius: 999px;
   font-family: var(--font-display);
@@ -546,6 +571,8 @@
 }
 
 .buscadorEtiqueta {
+  height: 1.1rem;
+  line-height: 1.1rem;
   font-family: var(--font-display);
   font-size: .74rem;
   font-weight: 600;
@@ -562,7 +589,8 @@
 .buscadorCampo input {
   flex: 1;
   min-width: 0;
-  padding: .62rem .9rem;
+  height: 2.7rem;
+  padding: 0 .9rem;
   background: var(--surface);
   border: 1px solid var(--line-strong);
   border-radius: 10px;

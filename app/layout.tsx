@@ -62,6 +62,13 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="es-SV" className={`${outfit.variable} ${inter.variable}`}>
+      <head>
+        {/* Sin JavaScript, las secciones que aparecen al desplazarse se
+            quedarían invisibles para siempre. El sitio se lee igual. */}
+        <noscript>
+          <style>{".reveal{opacity:1 !important;transform:none !important}"}</style>
+        </noscript>
+      </head>
       <body>
         <a className="skip-link" href="#contenido">
           Saltar al contenido

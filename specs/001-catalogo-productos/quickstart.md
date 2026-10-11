@@ -144,6 +144,87 @@ pruebas de extremo a extremo.
 
 ---
 
+## Resultado de la validación
+
+Ejecutada el 2026-10-11 contra MariaDB 10.11 con el juego de datos de ejemplo
+(6 categorías, 28 productos publicados), sobre la salida de producción
+(`npm run build && npm start`).
+
+| Escenario | Cómo se comprueba | Resultado |
+|-----------|-------------------|-----------|
+| V-1 · El catálogo lista lo publicado | `tests/e2e/catalogo.spec.ts` | ✅ 7 pruebas |
+| V-2 · La ficha informa y lleva a la consulta | `tests/e2e/ficha-producto.spec.ts` | ✅ 9 pruebas |
+| V-3 · Filtrar y buscar | `tests/e2e/busqueda-filtros.spec.ts` | ✅ 10 pruebas |
+| V-4 · Descubrimiento | `tests/e2e/descubrimiento.spec.ts` | ✅ 6 pruebas |
+| V-5 · El sitio de marketing sigue intacto | `tests/e2e/continuidad-marketing.spec.ts` | ✅ 12 pruebas |
+| V-6 · Direcciones estables | Slug histórico del juego de datos, en `ficha-producto.spec.ts` | ✅ redirección permanente |
+| V-7 · Accesibilidad y estabilidad visual | `tests/e2e/accesibilidad.spec.ts` y `scripts/medir-rendimiento.mjs` | ✅ ver abajo |
+
+Totales: **69 pruebas unitarias** y **107 de extremo a extremo** (escritorio y
+móvil), todas en verde.
+
+### Accesibilidad (SC-003)
+
+Auditoría automática con axe sobre siete páginas —portada, catálogo, catálogo
+filtrado, catálogo sin resultados, ficha, ficha sin imagen y «no
+encontrado»— en los niveles A y AA de WCAG 2.0 y 2.1: **cero incidencias**.
+
+Se corrigieron dos que aparecieron en la primera pasada:
+
+- contraste insuficiente del texto secundario, heredado del sitio estático. El
+  token `--text-dim` pasó de `#6b8599` a `#566e85`, que cumple 4.5:1 sobre los
+  cuatro fondos del tema. Mismo tono, solo más legible;
+- los enlaces apagados de «Anterior» y «Siguiente» en los extremos de la
+  paginación. Ya no se dibujan: un texto atenuado que no lleva a ninguna parte
+  no aportaba nada.
+
+Una auditoría automática no sustituye a una revisión a mano: sabe si un texto
+alternativo existe, no si es útil. Queda como comprobación antes de publicar,
+con el catálogo real.
+
+### Rendimiento (SC-004 y SC-007)
+
+Medido con `node scripts/medir-rendimiento.mjs`, que simula una conexión 4G de
+gama media (1,6 Mb/s, 150 ms de ida y vuelta) y un procesador cuatro veces más
+lento, en una pantalla de 390 px.
+
+| Página | LCP | CLS |
+|--------|-----|-----|
+| Portada | 1.16 s | 0.000 |
+| Catálogo | 0.71 s | 0.073 |
+| Catálogo, página 2 | 1.21 s | 0.073 |
+| Ficha | 0.77 s | 0.000 |
+
+Umbrales de SC-004: contenido principal por debajo de **2,5 s** y
+desplazamiento acumulado por debajo de **0,1**. Se cumplen.
+
+**SC-007** se comprobó repitiendo la medición con **200 productos y 10
+categorías** (`SEMILLA_CARGA=1 npx prisma db seed`): los mismos valores, y el
+servidor respondiendo entre 15 y 35 ms en catálogo, búsqueda, paginación
+profunda y mapa del sitio.
+
+Dos correcciones salieron de estas mediciones:
+
+- el hero esperaba a JavaScript para hacerse visible, lo que dejaba el
+  contenido principal de la portada en **3,0 s**. Ahora su animación de entrada
+  es solo CSS: **1,16 s**. Las demás secciones siguen apareciendo al
+  desplazarse, y un `<noscript>` las muestra si no hay JavaScript;
+- la fila de filtros se envolvía en varias líneas y cambiaba de altura al
+  cargar la tipografía. Con diez categorías eso llevaba el desplazamiento
+  acumulado a **0,16**, por encima del límite. Ahora es una sola fila
+  desplazable, de altura fija.
+
+**Decisión pendiente del cliente**: el 0,073 que queda viene de que los títulos
+se reajustan cuando llega la tipografía Outfit. Cambiar la estrategia de carga
+a `display: "optional"` lo deja en **0,000** y baja además la segunda página
+del catálogo de 1,21 s a 0,74 s; el precio es que, en una primera visita con
+red lenta, el texto se ve con la tipografía del sistema en lugar de la
+aprobada. Se mantiene `swap` porque FR-023 pide no alterar el diseño y SC-004
+ya se cumple, pero la alternativa está medida por si el cliente prefiere
+priorizar la estabilidad visual.
+
+---
+
 ## Qué NO cubre esta entrega
 
 Si algo de esto aparece durante la validación, es señal de que el alcance se está desbordando:

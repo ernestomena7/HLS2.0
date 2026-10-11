@@ -530,6 +530,78 @@ async function sembrar(db: PrismaClient): Promise<void> {
   }
 }
 
+/**
+ * Juego de datos de carga para comprobar SC-007: el catálogo debe seguir
+ * respondiendo con 200 productos y 10 categorías. Se añade **sobre** el juego
+ * representativo, no en su lugar, y solo cuando se pide con
+ * `SEMILLA_CARGA=1`. No sustituye a los datos de ejemplo: existe para medir.
+ */
+const CATEGORIAS_OBJETIVO = 10;
+const PRODUCTOS_OBJETIVO = 200;
+
+async function sembrarCarga(db: PrismaClient): Promise<void> {
+  const categoriasExistentes = await db.categoria.count();
+  const nuevasCategorias: number[] = [];
+
+  for (let indice = categoriasExistentes; indice < CATEGORIAS_OBJETIVO; indice += 1) {
+    const numero = indice + 1;
+    const categoria = await db.categoria.create({
+      data: {
+        slug: `linea-de-prueba-${numero}`,
+        nombre: `Línea de prueba ${numero}`,
+        descripcion: "Categoría generada para medir el rendimiento con el catálogo lleno.",
+        orden: 100 + numero,
+      },
+    });
+    nuevasCategorias.push(categoria.id);
+  }
+
+  const todas = await db.categoria.findMany({ select: { id: true } });
+  const productosExistentes = await db.producto.count();
+
+  for (let indice = productosExistentes; indice < PRODUCTOS_OBJETIVO; indice += 1) {
+    const numero = indice + 1;
+    const categoria = todas[indice % todas.length];
+    if (categoria === undefined) {
+      break;
+    }
+    const nombre = `Equipo de prueba ${numero} para ósmosis inversa`;
+    const creadoEn = new Date(FECHA_BASE.getTime() + (indice + 1) * 3_600_000);
+
+    await db.producto.create({
+      data: {
+        sku: `HLS-PRU-${String(numero).padStart(4, "0")}`,
+        slug: generarSlug(nombre),
+        nombre,
+        nombreNormalizado: normalizar(nombre),
+        descripcion:
+          "Producto generado para medir el rendimiento del catálogo con volumen realista.",
+        especificaciones: [
+          { nombre: "Producción", valor: `${100 + numero} galones por día` },
+          { nombre: "Etapas", valor: "5" },
+        ],
+        precio: (99 + numero).toFixed(2),
+        moneda: "USD",
+        estado: EstadoProducto.PUBLICADO,
+        disponible: true,
+        categoriaId: categoria.id,
+        creadoEn,
+        actualizadoEn: creadoEn,
+        imagenes: {
+          create: [
+            {
+              ruta: RUTA_IMAGEN,
+              textoAlternativo: `${nombre}, fotografía del producto`,
+              orden: 0,
+              esPrincipal: true,
+            },
+          ],
+        },
+      },
+    });
+  }
+}
+
 async function principal(): Promise<void> {
   const url = process.env.DATABASE_URL;
   if (url === undefined || url === "") {
@@ -542,6 +614,10 @@ async function principal(): Promise<void> {
 
   try {
     await sembrar(db);
+
+    if (process.env.SEMILLA_CARGA === "1") {
+      await sembrarCarga(db);
+    }
 
     const categorias = await db.categoria.count();
     const publicados = await db.producto.count({ where: { estado: EstadoProducto.PUBLICADO } });
