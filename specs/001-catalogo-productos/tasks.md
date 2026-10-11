@@ -54,22 +54,22 @@ necesitan.
 
 **⚠️ CRITICAL**: ninguna historia puede empezar hasta que esta fase esté completa.
 
-- [ ] T009 Configurar `prisma/schema.prisma` con `provider = "mysql"` y `url = env("DATABASE_URL")`
-- [ ] T010 Definir el modelo `Categoria` en `prisma/schema.prisma`: `slug` cadena(80) **única y obligatoria** en minúsculas sin acentos, `nombre` cadena(120) obligatorio de 2 a 120 caracteres, `descripcion` texto opcional, `orden` entero obligatorio por defecto 0, marcas de tiempo, e índice en `orden`. Borrar una categoría con productos asociados debe quedar impedido por integridad referencial
-- [ ] T011 Definir el modelo `Producto` en `prisma/schema.prisma`: `sku` cadena(60) **única**, `slug` cadena(140) **única**, `nombre` cadena(140) de 3 a 140, `nombreNormalizado` cadena(140) obligatorio y derivado, `descripcion` texto, `especificaciones` JSON, `precio` `DECIMAL(10,2)` **opcional** (nulo significa «Precio a consultar»; si existe debe ser mayor que 0 y con dos decimales), `moneda` cadena(3) por defecto `USD`, `estado` enumerado `BORRADOR | PUBLICADO` por defecto `BORRADOR`, `disponible` booleano por defecto `true`, `categoriaId` obligatorio, y marcas de tiempo. Índices: `nombreNormalizado`, `(estado, categoriaId)` y `(estado, creadoEn)`
-- [ ] T012 Definir `ImagenProducto` e `HistorialSlugProducto` en `prisma/schema.prisma`: la imagen con `ruta` cadena(255), `textoAlternativo` cadena(255) **obligatorio** de 3 a 255, `orden` entero por defecto 0, `esPrincipal` booleano por defecto `false`, borrado en cascada e índice `(productoId, orden)`; el historial con `slug` cadena(140) **única** y borrado en cascada
-- [ ] T013 Generar la migración inicial con `prisma migrate dev --name inicial` y versionarla en `prisma/migrations/`
-- [ ] T014 [P] Crear el cliente único de Prisma por proceso en `lib/db.ts`
-- [ ] T015 [P] Validar las variables de entorno con Zod al arrancar en `lib/env.ts`, fallando con mensaje legible si falta `DATABASE_URL`
-- [ ] T016 [P] Implementar en `lib/texto.ts` la normalización (minúsculas y sin diacríticos) y la generación de slug: sin guiones repetidos, ni al principio ni al final
-- [ ] T017 [P] Implementar en `lib/precio.ts` el formato con `Intl.NumberFormat("es-SV", { style: "currency", currency: "USD" })`, la leyenda «IVA incluido» y la regla de «Precio a consultar» cuando el precio es nulo
-- [ ] T018 [P] Escribir las pruebas unitarias de normalización y slug en `tests/unit/texto.test.ts`: «Ósmosis» y «OSMOSIS» normalizan igual; el slug de «Ósmosis inversa 500 GPD» es `osmosis-inversa-500-gpd`
-- [ ] T019 [P] Escribir las pruebas unitarias de precio en `tests/unit/precio.test.ts`: formato con dos decimales y símbolo, precio nulo devuelve «Precio a consultar», y un precio de 0 se trata como dato inválido, no como «a consultar»
-- [ ] T020 Migrar `assets/css/styles.css` a `app/globals.css` conservando intactos los tokens de `:root`, el bloque de movimiento reducido y el resto de reglas
-- [ ] T021 Crear `app/layout.tsx` con `lang="es-SV"`, las tipografías Outfit e Inter servidas desde la propia aplicación (decisión D-8) y los metadatos base del sitio
-- [ ] T022 [P] Extraer la navegación y el pie de página a `components/marketing/Navegacion.tsx` y `components/marketing/PieDePagina.tsx`, conservando enlaces y anclas actuales
-- [ ] T023 [P] Crear `app/not-found.tsx` con el diseño del sitio, texto en español y enlaces al catálogo y a la portada
-- [ ] T024 Implementar `prisma/seed.ts` con el juego de datos de ejemplo descrito en `data-model.md`: 6 categorías, entre 24 y 30 productos, al menos 3 sin precio, 2 agotados, 2 en borrador, 1 sin imagen, 1 categoría sin productos publicados y nombres con acentos
+- [X] T009 Configurar `prisma/schema.prisma` con `provider = "mysql"`. La cadena de conexión ya no cabe en el esquema: Prisma 7 la toma de `prisma.config.ts` para migrar y del adaptador `@prisma/adapter-mariadb` en ejecución
+- [X] T010 Definir el modelo `Categoria` en `prisma/schema.prisma`: `slug` cadena(80) **única y obligatoria** en minúsculas sin acentos, `nombre` cadena(120) obligatorio de 2 a 120 caracteres, `descripcion` texto opcional, `orden` entero obligatorio por defecto 0, marcas de tiempo, e índice en `orden`. Borrar una categoría con productos asociados debe quedar impedido por integridad referencial
+- [X] T011 Definir el modelo `Producto` en `prisma/schema.prisma`: `sku` cadena(60) **única**, `slug` cadena(140) **única**, `nombre` cadena(140) de 3 a 140, `nombreNormalizado` cadena(140) obligatorio y derivado, `descripcion` texto, `especificaciones` JSON, `precio` `DECIMAL(10,2)` **opcional** (nulo significa «Precio a consultar»; si existe debe ser mayor que 0 y con dos decimales), `moneda` cadena(3) por defecto `USD`, `estado` enumerado `BORRADOR | PUBLICADO` por defecto `BORRADOR`, `disponible` booleano por defecto `true`, `categoriaId` obligatorio, y marcas de tiempo. Índices: `nombreNormalizado`, `(estado, categoriaId)` y `(estado, creadoEn)`
+- [X] T012 Definir `ImagenProducto` e `HistorialSlugProducto` en `prisma/schema.prisma`: la imagen con `ruta` cadena(255), `textoAlternativo` cadena(255) **obligatorio** de 3 a 255, `orden` entero por defecto 0, `esPrincipal` booleano por defecto `false`, borrado en cascada e índice `(productoId, orden)`; el historial con `slug` cadena(140) **única** y borrado en cascada
+- [X] T013 Generar la migración inicial y versionarla en `prisma/migrations/`. Generada con `prisma migrate diff --from-empty --to-schema --script` por no haber servidor MySQL en el entorno de trabajo; **queda por aplicar** contra una base real con `prisma migrate deploy`
+- [X] T014 [P] Crear el cliente único de Prisma por proceso en `lib/db.ts`
+- [X] T015 [P] Validar las variables de entorno con Zod al arrancar en `lib/env.ts`, fallando con mensaje legible si falta `DATABASE_URL`
+- [X] T016 [P] Implementar en `lib/texto.ts` la normalización (minúsculas y sin diacríticos) y la generación de slug: sin guiones repetidos, ni al principio ni al final
+- [X] T017 [P] Implementar en `lib/precio.ts` el formato con `Intl.NumberFormat("es-SV", { style: "currency", currency: "USD" })`, la leyenda «IVA incluido» y la regla de «Precio a consultar» cuando el precio es nulo
+- [X] T018 [P] Escribir las pruebas unitarias de normalización y slug en `tests/unit/texto.test.ts`: «Ósmosis» y «OSMOSIS» normalizan igual; el slug de «Ósmosis inversa 500 GPD» es `osmosis-inversa-500-gpd`
+- [X] T019 [P] Escribir las pruebas unitarias de precio en `tests/unit/precio.test.ts`: formato con dos decimales y símbolo, precio nulo devuelve «Precio a consultar», y un precio de 0 se trata como dato inválido, no como «a consultar»
+- [X] T020 Migrar `assets/css/styles.css` a `app/globals.css` conservando intactos los tokens de `:root`, el bloque de movimiento reducido y el resto de reglas
+- [X] T021 Crear `app/layout.tsx` con `lang="es-SV"`, las tipografías Outfit e Inter servidas desde la propia aplicación (decisión D-8) y los metadatos base del sitio
+- [X] T022 [P] Extraer la navegación y el pie de página a `components/marketing/Navegacion.tsx` y `components/marketing/PieDePagina.tsx`, conservando enlaces y anclas actuales
+- [X] T023 [P] Crear `app/not-found.tsx` con el diseño del sitio, texto en español y enlaces al catálogo y a la portada
+- [X] T024 Implementar `prisma/seed.ts` con el juego de datos de ejemplo descrito en `data-model.md`: 6 categorías, entre 24 y 30 productos, al menos 3 sin precio, 2 agotados, 2 en borrador, 1 sin imagen, 1 categoría sin productos publicados y nombres con acentos
 
 **Checkpoint**: base lista. A partir de aquí las historias pueden avanzar.
 

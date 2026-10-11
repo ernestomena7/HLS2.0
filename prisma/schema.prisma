@@ -1,0 +1,116 @@
+// Esquema de datos de Hidrosal — entrega 001 (catálogo y ficha de producto).
+//
+// Fuente de verdad: specs/001-catalogo-productos/data-model.md.
+// Todo cambio nace como migración versionada; la base no se toca a mano
+// (constitución, principio III).
+//
+// La cadena de conexión NO vive aquí: Prisma 7 la toma de `prisma.config.ts`
+// para las migraciones y del adaptador que recibe `PrismaClient` en ejecución.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+/// Estado de publicación de un producto. `BORRADOR` es invisible para el
+/// visitante: no aparece en catálogo, ni en el mapa del sitio, ni por dirección
+/// directa, donde se comporta como inexistente (FR-012).
+enum EstadoProducto {
+  BORRADOR
+  PUBLICADO
+}
+
+/// Agrupación comercial de productos.
+model Categoria {
+  id            Int      @id @default(autoincrement())
+  /// Único y obligatorio: minúsculas, letras sin acentos, números y guiones.
+  slug          String   @unique @db.VarChar(80)
+  /// Obligatorio, de 2 a 120 caracteres (validado en la capa de escritura).
+  nombre        String   @db.VarChar(120)
+  descripcion   String?  @db.Text
+  /// Ordena la presentación de los filtros.
+  orden         Int      @default(0)
+  creadoEn      DateTime @default(now()) @map("creado_en")
+  actualizadoEn DateTime @updatedAt @map("actualizado_en")
+
+  productos Producto[]
+
+  @@index([orden])
+  @@map("categorias")
+}
+
+/// Equipo o consumible que Hidrosal ofrece.
+model Producto {
+  id   Int    @id @default(autoincrement())
+  /// Código interno, único.
+  sku  String @unique @db.VarChar(60)
+  /// Identificador legible de la dirección, único (FR-008).
+  slug String @unique @db.VarChar(140)
+  /// Obligatorio, de 3 a 140 caracteres (validado en la capa de escritura).
+  nombre String @db.VarChar(140)
+  /// Derivado de `nombre`: minúsculas y sin diacríticos. Base de la búsqueda
+  /// (decisión D-3). Nunca se escribe a mano.
+  nombreNormalizado String @map("nombre_normalizado") @db.VarChar(140)
+  /// Obligatorio para publicar.
+  descripcion String @db.Text
+  /// Lista ordenada de pares `{ nombre, valor }`, 0..n. MySQL no admite valor
+  /// por defecto en columnas JSON: la capa de escritura guarda `[]`.
+  especificaciones Json
+  /// Opcional. Si existe: mayor que 0, precio final con IVA incluido (FR-028).
+  /// Si es nulo: «Precio a consultar» (FR-029). Nunca un flotante.
+  precio Decimal? @db.Decimal(10, 2)
+  /// Por ahora siempre `USD`.
+  moneda String @default("USD") @db.VarChar(3)
+  estado EstadoProducto @default(BORRADOR)
+  /// `false` = agotado. Independiente del estado de publicación.
+  disponible  Boolean  @default(true)
+  categoriaId Int      @map("categoria_id")
+  creadoEn    DateTime @default(now()) @map("creado_en")
+  actualizadoEn DateTime @updatedAt @map("actualizado_en")
+
+  /// `Restrict`: borrar una categoría con productos asociados queda impedido
+  /// por integridad referencial; primero se reasignan.
+  categoria       Categoria               @relation(fields: [categoriaId], references: [id], onDelete: Restrict)
+  imagenes        ImagenProducto[]
+  slugsHistoricos HistorialSlugProducto[]
+
+  @@index([nombreNormalizado])
+  @@index([estado, categoriaId])
+  @@index([estado, creadoEn])
+  @@map("productos")
+}
+
+/// Fotografía asociada a un producto.
+model ImagenProducto {
+  id         Int    @id @default(autoincrement())
+  productoId Int    @map("producto_id")
+  ruta       String @db.VarChar(255)
+  /// Obligatorio (FR-019), de 3 a 255 caracteres.
+  textoAlternativo String @map("texto_alternativo") @db.VarChar(255)
+  orden            Int    @default(0)
+  /// A lo sumo una principal por producto. MySQL no tiene índices parciales:
+  /// la unicidad se garantiza en la capa de escritura y se verifica con prueba.
+  esPrincipal Boolean @default(false) @map("es_principal")
+
+  producto Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
+
+  @@index([productoId, orden])
+  @@map("imagenes_producto")
+}
+
+/// Direcciones antiguas que deben seguir funcionando (decisión D-4, FR-013).
+model HistorialSlugProducto {
+  id Int @id @default(autoincrement())
+  /// Único en toda la tabla y distinto de cualquier `Producto.slug` vigente.
+  slug       String   @unique @db.VarChar(140)
+  productoId Int      @map("producto_id")
+  creadoEn   DateTime @default(now()) @map("creado_en")
+
+  producto Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
+
+  @@index([productoId])
+  @@map("historial_slug_producto")
+}

@@ -14,10 +14,8 @@
     "db:migrate": "prisma migrate deploy",
     "db:seed": "prisma db seed"
   },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
-  },
   "dependencies": {
+    "@prisma/adapter-mariadb": "7.10.0",
     "@prisma/client": "7.10.0",
     "next": "16.4.0",
     "react": "19.3.0",
