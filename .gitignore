@@ -1,3 +1,7 @@
 .DS_Store
 Thumbs.db
 node_modules/
+
+# Estado local de los agentes de código (puede contener credenciales)
+.claude/settings.local.json
+.claude/*.local.json
