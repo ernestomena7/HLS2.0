@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 /**
  * Cabeceras de seguridad fijas, aplicadas a todas las rutas (constitución,
  * principio I). La política de contenido NO va aquí: necesita un `nonce`
- * distinto por petición y se emite desde `middleware.ts`.
+ * distinto por petición y se emite desde `proxy.ts`.
  */
 const cabecerasDeSeguridad = [
   { key: "X-Content-Type-Options", value: "nosniff" },

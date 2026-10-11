@@ -39,7 +39,7 @@ Aplicación única Next.js en la raíz del repositorio, según la decisión de e
 - [X] T001 Crear el esqueleto de directorios en la raíz: `app/`, `components/marketing/`, `components/catalogo/`, `lib/catalogo/`, `prisma/`, `public/img/`, `tests/unit/`, `tests/e2e/`
 - [X] T002 Crear `package.json` con Next.js 16.4.0, React 19.3.0, TypeScript 6.0.3 (decisión D-13), `@prisma/client` 7.10.0, `prisma` 7.10.0 (desarrollo), Zod 4.6.6, `sharp` 0.35.5, Vitest 5.0.3 y `@playwright/test` 1.64.0, y los scripts `dev`, `build`, `start`, `typecheck`, `lint`, `test` y `test:e2e`. Fijar la línea 7 de Prisma de forma explícita: la etiqueta `latest` apunta hoy a una candidata 8.0 (decisión D-2)
 - [X] T003 [P] Configurar `tsconfig.json` con `"strict": true`, `"noUncheckedIndexedAccess": true` y el alias `@/*` hacia la raíz
-- [X] T004 [P] Configurar `next.config.ts` con `output: "standalone"` (decisión D-1) y cabeceras de seguridad para todas las rutas; la política de contenido va en `middleware.ts` porque necesita un `nonce` por petición
+- [X] T004 [P] Configurar `next.config.ts` con `output: "standalone"` (decisión D-1) y cabeceras de seguridad para todas las rutas; la política de contenido va en `proxy.ts` porque necesita un `nonce` por petición
 - [X] T005 [P] Configurar ESLint y Prettier en `eslint.config.mjs` y `.prettierrc`, con la regla que prohíbe `any` y `@ts-ignore` en `app/`, `components/` y `lib/`
 - [X] T006 [P] Configurar Vitest en `vitest.config.ts` para ejecutar `tests/unit/**/*.test.ts`
 - [X] T007 [P] Configurar Playwright en `playwright.config.ts` con `baseURL` en `http://localhost:3000` y arranque automático del servidor
@@ -86,18 +86,18 @@ salen marcados y que los productos sin precio muestran «Precio a consultar».
 
 ### Tests for User Story 1
 
-- [ ] T025 [P] [US1] Escribir las pruebas unitarias de paginación en `tests/unit/paginacion.test.ts`: cálculo de total de páginas, desplazamiento por página y que el desempate por identificador impide que un producto aparezca en dos páginas
-- [ ] T026 [P] [US1] Escribir la prueba de extremo a extremo del catálogo en `tests/e2e/catalogo.spec.ts` cubriendo los cuatro escenarios de aceptación de la historia 1 más el producto sin precio
+- [X] T025 [P] [US1] Escribir las pruebas unitarias de paginación en `tests/unit/paginacion.test.ts`: cálculo de total de páginas, desplazamiento por página y que el desempate por identificador impide que un producto aparezca en dos páginas
+- [X] T026 [P] [US1] Escribir la prueba de extremo a extremo del catálogo en `tests/e2e/catalogo.spec.ts` cubriendo los cuatro escenarios de aceptación de la historia 1 más el producto sin precio
 
 ### Implementation for User Story 1
 
-- [ ] T027 [US1] Implementar `listarProductos` en `lib/catalogo/consultas.ts`: filtra `estado = PUBLICADO`, ordena por `creadoEn` descendente con el identificador como desempate, pagina de 12 en 12 y devuelve también el total de resultados y el número de páginas
-- [ ] T028 [P] [US1] Crear `components/catalogo/TarjetaProducto.tsx` con imagen principal mediante `next/image` con dimensiones declaradas y `sizes`, nombre, categoría, aviso de agotado y precio o «Precio a consultar»
-- [ ] T029 [P] [US1] Crear `components/catalogo/Paginacion.tsx`, navegable con teclado y con la página vigente anunciada a lectores de pantalla
-- [ ] T030 [P] [US1] Crear `components/catalogo/EstadoVacio.tsx` para el catálogo en preparación y para la categoría sin productos
-- [ ] T031 [US1] Crear `app/productos/page.tsx` como componente de servidor que consume `listarProductos` y compone la rejilla, con revalidación periódica (decisión D-6)
-- [ ] T032 [P] [US1] Crear `app/productos/productos.module.css` consumiendo los tokens de `app/globals.css`, sin introducir colores nuevos
-- [ ] T033 [US1] Añadir los metadatos propios del catálogo en `app/productos/page.tsx`, con `/productos` como dirección canónica
+- [X] T027 [US1] Implementar `listarProductos` en `lib/catalogo/consultas.ts`: filtra `estado = PUBLICADO`, ordena por `creadoEn` descendente con el identificador como desempate, pagina de 12 en 12 y devuelve también el total de resultados y el número de páginas
+- [X] T028 [P] [US1] Crear `components/catalogo/TarjetaProducto.tsx` con imagen principal mediante `next/image` con dimensiones declaradas y `sizes`, nombre, categoría, aviso de agotado y precio o «Precio a consultar»
+- [X] T029 [P] [US1] Crear `components/catalogo/Paginacion.tsx`, navegable con teclado y con la página vigente anunciada a lectores de pantalla
+- [X] T030 [P] [US1] Crear `components/catalogo/EstadoVacio.tsx` para el catálogo en preparación y para la categoría sin productos
+- [X] T031 [US1] Crear `app/productos/page.tsx` como componente de servidor que consume `listarProductos` y compone la rejilla, con revalidación periódica (decisión D-6)
+- [X] T032 [P] [US1] Crear `app/productos/productos.module.css` consumiendo los tokens de `app/globals.css`, sin introducir colores nuevos. Lo comparten la página y los componentes de `components/catalogo/`
+- [X] T033 [US1] Añadir los metadatos propios del catálogo en `app/productos/page.tsx`, con `/productos` como dirección canónica
 
 **Checkpoint**: la historia 1 es demostrable por sí sola. Es el MVP.
 

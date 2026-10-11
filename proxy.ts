@@ -12,7 +12,7 @@ import { NextResponse, type NextRequest } from "next/server";
  * Los estilos sí llevan `unsafe-inline`: el sitio de marketing aprobado usa
  * atributos `style` en línea y `next/font` inyecta su propia hoja.
  */
-export function middleware(peticion: NextRequest): NextResponse {
+export default function proxy(peticion: NextRequest): NextResponse {
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
 
   const politica = [

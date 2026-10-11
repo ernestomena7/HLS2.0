@@ -1,0 +1,246 @@
+/* =====================================================================
+   Catálogo — estilos propios de /productos y de sus componentes.
+
+   Consume exclusivamente los tokens de app/globals.css: no se introduce
+   ningún color, sombra ni tipografía nueva (FR-023, decisión D-9).
+   ===================================================================== */
+
+/* ------------------------------------------------------- Encabezado -- */
+.encabezado {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto clamp(2.4rem, 1.8rem + 2vw, 3.6rem);
+}
+
+/* ----------------------------------------------------------- Rejilla -- */
+.rejilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: clamp(1.1rem, .8rem + 1vw, 1.8rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.resumen {
+  margin: 0 0 1.4rem;
+  color: var(--text-dim);
+  font-size: .92rem;
+}
+
+/* ------------------------------------------------------------ Tarjeta -- */
+.tarjeta {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: transform .45s var(--ease), box-shadow .45s var(--ease),
+    border-color .45s var(--ease);
+}
+
+.tarjeta:hover,
+.tarjeta:focus-within {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  border-color: var(--line-strong);
+}
+
+.tarjetaEnlace {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.tarjetaEnlace:focus-visible {
+  outline: 2px solid var(--aqua);
+  outline-offset: -2px;
+}
+
+.tarjetaImagen {
+  position: relative;
+  background: var(--bg-3);
+  aspect-ratio: 4 / 3;
+}
+
+.tarjetaImagen img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.insignia {
+  position: absolute;
+  inset-block-start: .7rem;
+  inset-inline-start: .7rem;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: .2rem .7rem;
+  font-family: var(--font-display);
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+.tarjetaCuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  padding: 1.1rem 1.2rem 1.3rem;
+  flex: 1;
+}
+
+.tarjetaCategoria {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--aqua-ink);
+}
+
+.tarjetaNombre {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.12rem;
+  line-height: 1.3;
+  letter-spacing: -.01em;
+  color: var(--text);
+}
+
+.precio,
+.precioConsultar {
+  margin: auto 0 0;
+  padding-top: .6rem;
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.precioConsultar {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--aqua-ink);
+}
+
+.precioLeyenda {
+  display: block;
+  font-size: .72rem;
+  font-weight: 400;
+  letter-spacing: .04em;
+  color: var(--text-dim);
+}
+
+/* -------------------------------------------------------- Paginación -- */
+.paginacion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem 1rem;
+  margin-top: clamp(2.4rem, 2rem + 1.5vw, 3.4rem);
+}
+
+.paginaLista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pagina,
+.paginaSalto {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  padding: 0 .7rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-family: var(--font-display);
+  font-size: .92rem;
+  color: var(--text-soft);
+  text-decoration: none;
+  transition: border-color .3s var(--ease), color .3s var(--ease),
+    background .3s var(--ease);
+}
+
+.pagina:hover,
+.paginaSalto:hover {
+  border-color: var(--line-strong);
+  color: var(--text);
+}
+
+.pagina:focus-visible,
+.paginaSalto:focus-visible {
+  outline: 2px solid var(--aqua);
+  outline-offset: 2px;
+}
+
+.paginaVigente {
+  background: var(--bg-3);
+  border-color: var(--line-strong);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.paginaInactiva {
+  opacity: .45;
+}
+
+/* ------------------------------------------------------ Estado vacío -- */
+.vacio {
+  text-align: center;
+  max-width: 620px;
+  margin: clamp(2rem, 1.5rem + 2vw, 3.5rem) auto;
+  padding: clamp(2rem, 1.5rem + 2vw, 3rem);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.vacioTitulo {
+  margin: 0 0 .6rem;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.42rem;
+  letter-spacing: -.012em;
+  color: var(--text);
+}
+
+.vacioTexto {
+  margin: 0 0 1.4rem;
+  color: var(--text-soft);
+}
+
+.vacioAcciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .7rem;
+  justify-content: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tarjeta,
+  .pagina,
+  .paginaSalto {
+    transition: none;
+  }
+  .tarjeta:hover,
+  .tarjeta:focus-within {
+    transform: none;
+  }
+}
